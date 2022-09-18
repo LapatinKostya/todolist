@@ -1,10 +1,12 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
 
 type EditableSpanPropsType = {
     title: string
     onChange: (newValue: string) => void
 }
-export const EditableSpan = (props: EditableSpanPropsType) => {
+export const EditableSpan = memo((props: EditableSpanPropsType) => {
+    console.log('editable span called')
+
     const [edit, setEdit] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('')
 
@@ -17,16 +19,13 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
         setEdit(true)
         setTitle(props.title)
     }
-    const changeTitle = () => {
-        setTitle(title.trim())
-    }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
     const onEnter = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            changeTitle()
-            setEdit(!edit)
+            setTitle(title.trim())
+            offEdit()
         }
     }
 
@@ -44,4 +43,4 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
                 onDoubleClick={onEdit}
             >{props.title}</span>
     )
-}
+})

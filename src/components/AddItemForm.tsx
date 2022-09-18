@@ -1,23 +1,27 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
 
 type AddItemFormPropsType = {
     addItem: (task: string) => void
 }
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = memo((props: AddItemFormPropsType) => {
+
+    console.log('AddItemForm called')
+
     const [error, setError] = useState<string>('')
     const [task, setTask] = useState<string>('')
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setError('')
         setTask(e.currentTarget.value)
     }
 
     const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (error !== ''){
+            setError('')
+        }
         if (e.key === 'Enter') {
             onClickHandler()
         }
     }
-
     const onClickHandler = () => {
         let trimmedTask = task.trim()
         if (trimmedTask) {
@@ -40,4 +44,4 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             {error && <div className={'error-message'}>{error}</div>}
         </div>
     )
-}
+})

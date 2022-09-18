@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
 import {AddItemForm} from "./components/AddItemForm";
@@ -8,74 +8,68 @@ import {
     changeTodolistTitleAC,
     removeTodolistAC
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {TaskStateType, TodolistType} from "./App";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 
 export type filterType = 'all' | 'active' | 'completed'
 
 function AppWidthRedux() {
+    console.log('App called')
 
     const dispatch = useDispatch()
 
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks)
 
-
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
-    }
-    const removeTodolist = (todoId: string) => {
+    }, [dispatch])
+    const removeTodolist = useCallback((todoId: string) => {
         dispatch(removeTodolistAC(todoId))
-    }
-    const changeTodolistFilter = (value: filterType, toDoId: string) => {
+    }, [dispatch])
+    const changeTodolistFilter = useCallback((value: filterType, toDoId: string) => {
         dispatch(changeTodolistFilterAC(toDoId, value))
-    }
-    const changeTodolistTitle = (todoId: string, value: string) => {
+    }, [dispatch])
+    const changeTodolistTitle = useCallback((todoId: string, value: string) => {
         dispatch(changeTodolistTitleAC(todoId, value))
-    }
+    }, [dispatch])
 
-    const removeTask = (toDoId: string, id: string) => {
+    const removeTask =useCallback((toDoId: string, id: string) => {
         dispatch(removeTaskAC(toDoId, id))
-    }
-    const addTask = (toDoId: string, task: string) => {
+    }, [dispatch])
+    const addTask = useCallback( (toDoId: string, task: string) => {
         dispatch(addTaskAC(toDoId, task))
-    }
-    const changeTaskStatus = (toDoId: string, id: string, isDone: boolean) => {
+    },[dispatch])
+    const changeTaskStatus = useCallback((toDoId: string, id: string, isDone: boolean) => {
         dispatch(changeTaskStatusAC(toDoId, id, isDone))
-    }
-    const changeTaskTitle = (todoId: string, taskId: string, value: string) => {
+    }, [dispatch])
+    const changeTaskTitle =useCallback((todoId: string, taskId: string, value: string) => {
         dispatch(changeTaskTitleAC(todoId, taskId, value))
-    }
+    }, [dispatch])
 
     return (
         <div className="App">
             <AddItemForm addItem={addTodoList}/>
             {todolists.map((tl) => {
 
-                let tasksForTodolist = tasks[tl.id]
+                let taskForTodolist = tasks[tl.id]
 
-                if (tl.filter === 'active') {
-                    tasksForTodolist = tasksForTodolist.filter(el => !el.isDone)
-                }
-                if (tl.filter === 'completed') {
-                    tasksForTodolist = tasksForTodolist.filter(el => el.isDone)
-                }
                 return (
                     <Todolist
                         key={tl.id}
                         id={tl.id}
+                        tasks={taskForTodolist}
                         title={tl.title}
                         filter={tl.filter}
-                        tasks={tasksForTodolist}
-                        removeTask={removeTask}
                         changeFilter={changeTodolistFilter}
+                        removeTodolist={removeTodolist}
+                        changeTodolistTitle={changeTodolistTitle}
+                        removeTask={removeTask}
                         addTask={addTask}
                         changeTaskStatus={changeTaskStatus}
-                        removeTodolist={removeTodolist}
                         changeTaskTitle={changeTaskTitle}
-                        changeTodolistTitle={changeTodolistTitle}
                     />
                 )
             })}
