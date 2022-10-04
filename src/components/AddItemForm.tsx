@@ -5,8 +5,6 @@ type AddItemFormPropsType = {
 }
 export const AddItemForm = memo((props: AddItemFormPropsType) => {
 
-    console.log('AddItemForm called')
-
     const [error, setError] = useState<string>('')
     const [task, setTask] = useState<string>('')
 
@@ -15,7 +13,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
     }
 
     const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (error !== ''){
+        if (error !== '') {
             setError('')
         }
         if (e.key === 'Enter') {

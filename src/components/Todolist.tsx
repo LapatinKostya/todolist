@@ -25,7 +25,6 @@ export type TasksType = {
 }
 
 export const Todolist = memo((props: TodolistPropsType) => {
-    console.log('todolist is called')
 
     let tasksForTodolist = props.tasks
 

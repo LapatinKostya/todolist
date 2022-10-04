@@ -16,7 +16,6 @@ import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./
 export type filterType = 'all' | 'active' | 'completed'
 
 function AppWidthRedux() {
-    console.log('App called')
 
     const dispatch = useDispatch()
 
@@ -36,16 +35,16 @@ function AppWidthRedux() {
         dispatch(changeTodolistTitleAC(todoId, value))
     }, [dispatch])
 
-    const removeTask =useCallback((toDoId: string, id: string) => {
+    const removeTask = useCallback((toDoId: string, id: string) => {
         dispatch(removeTaskAC(toDoId, id))
     }, [dispatch])
-    const addTask = useCallback( (toDoId: string, task: string) => {
+    const addTask = useCallback((toDoId: string, task: string) => {
         dispatch(addTaskAC(toDoId, task))
-    },[dispatch])
+    }, [dispatch])
     const changeTaskStatus = useCallback((toDoId: string, id: string, isDone: boolean) => {
         dispatch(changeTaskStatusAC(toDoId, id, isDone))
     }, [dispatch])
-    const changeTaskTitle =useCallback((todoId: string, taskId: string, value: string) => {
+    const changeTaskTitle = useCallback((todoId: string, taskId: string, value: string) => {
         dispatch(changeTaskTitleAC(todoId, taskId, value))
     }, [dispatch])
 
