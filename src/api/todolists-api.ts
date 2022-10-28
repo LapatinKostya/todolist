@@ -3,7 +3,7 @@ import axios from "axios";
 const settings = {
     withCredentials: true,
     headers: {
-        'API-KEY': '9172f965-4bc9-4cda-9d4d-05c9c625247d',
+        'API-KEY': '3e45b67f-ef08-42fa-bfe6-461da76b065c',
     },
 }
 
