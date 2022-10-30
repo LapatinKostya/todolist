@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {TaskStatusesType, todolistsApi} from "../api/todolists-api";
+import {TaskStatusesType, todolistsApi, UpdateTaskType} from "../api/todolists-api";
 
 export default {
     title: 'API'
@@ -88,8 +88,7 @@ export const GetTasks = () => {
     return <div>{JSON.stringify(state)}
         <div>
             <input placeholder={'todolistId'} onChange={e => setTodolistID(e.currentTarget.value)}/>
-
-            <button onClick={getTask}>get task</button>
+            <button onClick={getTask}>get tasks</button>
         </div>
     </div>
 }
@@ -140,7 +139,7 @@ export const UpdateTask = () => {
     const [title, setTitle] = useState<string>('')
     const [status, setStatus] = useState<TaskStatusesType>(1)
 
-    const model = {
+    const model: UpdateTaskType = {
         title: title,
         description: '',
         status: status,
