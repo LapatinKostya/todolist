@@ -12,7 +12,6 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import {Menu} from '@mui/icons-material';
 import {
-    addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     fetchTodolistsTC,
@@ -20,7 +19,7 @@ import {
     removeTodolistAC,
     TodolistDomainType
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksStateType} from './state/tasks-reducer';
+import {addTasksTC, changeTaskStatusAC, changeTaskTitleAC, removeTasksTC, TasksStateType} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 import {TaskStatusesType} from "./api/todolists-api";
@@ -37,13 +36,11 @@ function App() {
     }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
-        const action = removeTaskAC(id, todolistId);
-        dispatch(action);
+        dispatch(removeTasksTC(id, todolistId))
     }, []);
 
     const addTask = useCallback(function (title: string, todolistId: string) {
-        const action = addTaskAC(title, todolistId);
-        dispatch(action);
+        dispatch(addTasksTC(title, todolistId))
     }, []);
 
     const changeStatus = useCallback(function (id: string, status: TaskStatusesType, todolistId: string) {
@@ -72,8 +69,7 @@ function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title);
-        dispatch(action);
+        // dispatch(addTodolistsTC(title))
     }, [dispatch]);
 
     return (
