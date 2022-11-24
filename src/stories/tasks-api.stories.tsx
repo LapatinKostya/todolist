@@ -6,46 +6,56 @@ export default {
 }
 
 
-export const GetTodolists = () => {
+export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
 
     useEffect(() => {
-        todolistsAPI.getTodolists()
+        const todolistId = '9bbd13a2-e002-4460-9393-4589c203530b'
+        todolistsAPI.getTasks(todolistId)
             .then((res) => setState(res.data))
     }, [])
     return <div>{JSON.stringify(state)}</div>
 }
 
-export const CreateTodolist = () => {
+export const AddTask = () => {
 
     const [state, setState] = useState<any>(null)
+    const todolistId = '9bbd13a2-e002-4460-9393-4589c203530b'
     const title = 'new title'
     useEffect(() => {
-        todolistsAPI.createTodolist(title)
+        todolistsAPI.addTask(todolistId, title)
             .then((res) => setState(res.data))
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
 }
 
-export const DeleteTodolist = () => {
+
+export const DeleteTask = () => {
 
     const [state, setState] = useState<any>(null)
-    const todolistId = '966b5271-8329-40cf-8f09-e06ff21de5fa'
+    const todolistId = '9bbd13a2-e002-4460-9393-4589c203530b'
+    const taskId = 'ffdc63f2-ab6a-4625-8464-2f5699872ceb'
     useEffect(() => {
-        todolistsAPI.deleteTodolist(todolistId)
+        todolistsAPI.deleteTask(todolistId, taskId)
             .then((res) => setState(res.data))
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
 }
 
-export const UpdateTodolistTitle = () => {
+export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
-    const newTitle = 'YESYES'
-    const todolistId = '6212c96b-6251-4d89-9f05-fd6842c57fb5'
+    const model = {
+        title: '123',
+        description: '123',
+        status: 0,
+        priority: 0,
+    }
+    const todolistId = '9bbd13a2-e002-4460-9393-4589c203530b'
+    const taskId = 'e230a6c1-de17-4d10-bb47-546965dfe9cb'
     useEffect(() => {
-        todolistsAPI.updateTodolistTitle(todolistId, newTitle)
+        todolistsAPI.updateTask(todolistId, taskId, model)
             .then((res) => {
                 setState(res.data)
             })
