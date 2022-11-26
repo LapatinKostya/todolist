@@ -19,7 +19,7 @@ import {
     FilterValuesType,
     removeTodolistAC
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
+import {addTasksTC, updateTC, removeTasksTC} from './state/tasks-reducer';
 import {useAppDispatch, useAppSelector} from './state/store';
 import {TaskPriorities} from "./api/todolists-api";
 
@@ -29,29 +29,24 @@ function App() {
     const tasks = useAppSelector(state => state.tasks)
     const dispatch = useAppDispatch();
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(fetchTodolistsTC())
     }, [])
 
-
-    const removeTask = useCallback(function (id: string, todolistId: string) {
-        const action = removeTaskAC(id, todolistId);
-        dispatch(action);
+    const removeTask = useCallback(function (todolistId: string, taskId: string) {
+        dispatch(removeTasksTC(todolistId, taskId))
     }, []);
 
-    const addTask = useCallback(function (title: string, todolistId: string) {
-        const action = addTaskAC(title, todolistId);
-        dispatch(action);
+    const addTask = useCallback(function (todolistId: string, title: string) {
+        dispatch(addTasksTC(todolistId, title))
     }, []);
 
-    const changeStatus = useCallback(function (id: string, status: TaskPriorities, todolistId: string) {
-        const action = changeTaskStatusAC(id, status, todolistId);
-        dispatch(action);
+    const changeTaskStatus = useCallback(function (todolistId: string, taskId: string, status: TaskPriorities, ) {
+        dispatch(updateTC(todolistId, taskId, {status: status}))
     }, []);
 
-    const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
-        dispatch(action);
+    const changeTaskTitle = useCallback(function (todolistId: string, taskId: string, newTitle: string, ) {
+        dispatch(updateTC(todolistId, taskId, {title: newTitle}))
     }, []);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
@@ -106,7 +101,7 @@ function App() {
                                         removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
-                                        changeTaskStatus={changeStatus}
+                                        changeTaskStatus={changeTaskStatus}
                                         filter={tl.filter}
                                         removeTodolist={removeTodolist}
                                         changeTaskTitle={changeTaskTitle}

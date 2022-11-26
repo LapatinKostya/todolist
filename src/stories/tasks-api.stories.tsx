@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {todolistsAPI} from "../api/todolists-api";
+import {TaskPriorities, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 
 export default {
     title: 'API'
@@ -34,7 +34,7 @@ export const DeleteTask = () => {
 
     const [state, setState] = useState<any>(null)
     const todolistId = '9bbd13a2-e002-4460-9393-4589c203530b'
-    const taskId = 'ffdc63f2-ab6a-4625-8464-2f5699872ceb'
+    const taskId = 'e2451c04-0b2d-45a2-891b-f302124164bd'
     useEffect(() => {
         todolistsAPI.deleteTask(todolistId, taskId)
             .then((res) => setState(res.data))
@@ -45,14 +45,16 @@ export const DeleteTask = () => {
 
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
-    const model = {
+    const model:UpdateTaskModelType = {
         title: '123',
         description: '123',
-        status: 0,
+        status: TaskPriorities.Completed,
         priority: 0,
+        startDate: '',
+        deadline: '',
     }
     const todolistId = '9bbd13a2-e002-4460-9393-4589c203530b'
-    const taskId = 'e230a6c1-de17-4d10-bb47-546965dfe9cb'
+    const taskId = '79a3965e-74d6-4f0b-a0e2-0fc5d04007fd'
     useEffect(() => {
         todolistsAPI.updateTask(todolistId, taskId, model)
             .then((res) => {

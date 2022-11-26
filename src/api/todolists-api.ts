@@ -47,13 +47,13 @@ type GetTaskResponseType = {
     totalCount: number
     error: string | null
 }
-type UpdateTaskModelType = {
+export type UpdateTaskModelType = {
     title: string
     description: string
-    status: number
+    status: TaskPriorities
     priority: number
-    startDate?: string
-    deadline?: string
+    startDate: string
+    deadline: string
 }
 
 export const todolistsAPI = {

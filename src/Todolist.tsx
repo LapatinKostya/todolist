@@ -15,10 +15,10 @@ type PropsType = {
     title: string
     tasks: Array<TaskType>
     changeFilter: (value: FilterValuesType, todolistId: string) => void
-    addTask: (title: string, todolistId: string) => void
-    changeTaskStatus: (id: string, status: TaskPriorities, todolistId: string) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-    removeTask: (taskId: string, todolistId: string) => void
+    addTask: (todolistId: string, title: string) => void
+    changeTaskStatus: (todolistId: string, taskId: string, status: TaskPriorities) => void
+    changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
+    removeTask: (todolistId: string, taskId: string) => void
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
     filter: FilterValuesType
@@ -26,12 +26,13 @@ type PropsType = {
 
 export const Todolist = React.memo(function (props: PropsType) {
     const dispatch = useAppDispatch();
+
     useEffect(() => {
         dispatch(fetchTasksTC(props.id))
     }, [])
 
     const addTask = useCallback((title: string) => {
-        props.addTask(title, props.id)
+        props.addTask(props.id, title)
     }, [props.addTask, props.id])
 
     const removeTodolist = () => {
