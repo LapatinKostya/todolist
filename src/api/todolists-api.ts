@@ -3,10 +3,9 @@ import axios from "axios";
 const settings = {
     withCredentials: true,
     headers: {
-        'API-KEY': '3e45b67f-ef08-42fa-bfe6-461da76b065c',
-    },
+        'api-key': '3e45b67f-ef08-42fa-bfe6-461da76b065c'
+    }
 }
-
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
@@ -18,35 +17,24 @@ export type TodolistType = {
     addedDate: string
     order: number
 }
-type ResponseType<D = {}> = {
+type ResponseType<D> = {
     resultCode: number
     messages: string[]
     data: D
 }
-type CreateTodoDataType = {
-    item: TodolistType
-}
 
-export enum TaskStatusesType {
-    NEW = 0,
+export enum TaskPriorities {
+    New = 0,
     InProgress = 1,
     Completed = 2,
-    Draft = 3,
-}
-
-export enum TaskPrioritiesType {
-    Low = 0,
-    Middle = 1,
-    Hi = 2,
-    Urgently = 3,
-    Later = 4,
+    Draft = 3
 }
 
 export type TaskType = {
     description: string
     title: string
-    status: TaskStatusesType
-    priority: TaskPrioritiesType
+    status: TaskPriorities
+    priority: number
     startDate: string
     deadline: string
     id: string
@@ -54,52 +42,44 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-type GetTasksResponseType = {
+type GetTaskResponseType = {
     items: TaskType[]
     totalCount: number
     error: string | null
 }
-
-export type UpdateTaskType = {
+export type UpdateTaskModelType = {
     title: string
     description: string
-    status: TaskStatusesType
-    priority: TaskPrioritiesType
+    status: TaskPriorities
+    priority: number
     startDate: string
     deadline: string
 }
 
-export const todolistsApi = {
+export const todolistsAPI = {
     getTodolists() {
-        return instance
-            .get<TodolistType[]>('todo-lists')
+        return instance.get<TodolistType[]>('todo-lists')
     },
-    createTodolist(tidoTitle: string) {
-        return instance
-            .post<ResponseType<CreateTodoDataType>>('todo-lists', {title: tidoTitle})
+    createTodolist(title: string) {
+        return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title})
     },
-    deleteTodolist(todolistID: string) {
-        return instance
-            .delete<ResponseType>(`todo-lists/${todolistID}`)
+    deleteTodolist(todolistId: string) {
+        return instance.delete<ResponseType<{}>>(`todo-lists/${todolistId}`)
     },
-    updateTodolistTitle(todolistID: string, tidoTitle: string) {
-        return instance
-            .put<ResponseType>(`todo-lists/${todolistID}`, {title: tidoTitle})
+    updateTodolistTitle(id: string, newTitle: string) {
+        return instance.put<ResponseType<{}>>(`todo-lists/${id}`, {title: newTitle})
     },
-    getTasks(todolistID: string) {
-        return instance
-            .get<GetTasksResponseType>(`todo-lists/${todolistID}/tasks`)
+
+    getTasks(todolistId: string) {
+        return instance.get<GetTaskResponseType>(`todo-lists/${todolistId}/tasks`)
     },
-    removeTask(todolistID: string, taskID: string) {
-        return instance
-            .delete<ResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`)
+    addTask(todolistId: string, title: string) {
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
-    addTask(todolistID: string, taskTitle: string) {
-        return instance
-            .post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistID}/tasks`, {title: taskTitle})
+    deleteTask(todolistId: string, taskId: string) {
+        return instance.delete<ResponseType<{}>>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTask(todolistID: string, taskID: string, model: UpdateTaskType) {
-        return instance
-            .put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistID}/tasks/${taskID}`, model)
-    },
+    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+        return instance.put<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+    }
 }
