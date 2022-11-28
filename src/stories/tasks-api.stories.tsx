@@ -22,7 +22,7 @@ export const AddTask = () => {
     const todolistId = '9bbd13a2-e002-4460-9393-4589c203530b'
     const title = 'new title'
     useEffect(() => {
-        todolistsAPI.addTask(todolistId, title)
+        todolistsAPI.createTask(todolistId, title)
             .then((res) => setState(res.data))
     }, [])
 
@@ -45,7 +45,7 @@ export const DeleteTask = () => {
 
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
-    const model:UpdateTaskModelType = {
+    const model: UpdateTaskModelType = {
         title: '123',
         description: '123',
         status: TaskPriorities.Completed,
