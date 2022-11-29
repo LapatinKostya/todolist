@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {TaskPriorities, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
+import {TaskStatuses, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 
 export default {
     title: 'API'
@@ -48,7 +48,7 @@ export const UpdateTask = () => {
     const model: UpdateTaskModelType = {
         title: '123',
         description: '123',
-        status: TaskPriorities.Completed,
+        status: TaskStatuses.Completed,
         priority: 0,
         startDate: '',
         deadline: '',
