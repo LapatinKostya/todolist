@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import {Delete} from '@mui/icons-material'
 import {Task} from './Task'
 import {FilterValuesType} from "./state/todolists-reducer";
-import {TaskPriorities, TaskType} from "./api/todolists-api";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {useAppDispatch} from "./state/store";
 import {fetchTasksTC} from "./state/tasks-reducer";
 
@@ -16,7 +16,7 @@ type PropsType = {
     tasks: Array<TaskType>
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (todolistId: string, title: string) => void
-    changeTaskStatus: (todolistId: string, taskId: string, status: TaskPriorities) => void
+    changeTaskStatus: (todolistId: string, taskId: string, status: TaskStatuses) => void
     changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
     removeTask: (todolistId: string, taskId: string) => void
     removeTodolist: (id: string) => void
@@ -50,10 +50,10 @@ export const Todolist = React.memo(function (props: PropsType) {
     let tasksForTodolist = props.tasks
 
     if (props.filter === 'active') {
-        tasksForTodolist = props.tasks.filter(t => t.status === TaskPriorities.New)
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
     }
     if (props.filter === 'completed') {
-        tasksForTodolist = props.tasks.filter(t => t.status === TaskPriorities.Completed)
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
     return <div>

@@ -21,7 +21,7 @@ import {
 } from './state/todolists-reducer';
 import {createTasksTC, removeTasksTC, updateTC} from './state/tasks-reducer';
 import {useAppDispatch, useAppSelector} from './state/store';
-import {TaskPriorities} from "./api/todolists-api";
+import {TaskStatuses} from "./api/todolists-api";
 
 function App() {
 
@@ -39,7 +39,7 @@ function App() {
     const addTask = useCallback(function (todolistId: string, title: string) {
         dispatch(createTasksTC(todolistId, title))
     }, []);
-    const changeTaskStatus = useCallback(function (todolistId: string, taskId: string, status: TaskPriorities) {
+    const changeTaskStatus = useCallback(function (todolistId: string, taskId: string, status: TaskStatuses) {
         dispatch(updateTC(todolistId, taskId, {status: status}))
     }, []);
     const changeTaskTitle = useCallback(function (todolistId: string, taskId: string, newTitle: string) {
