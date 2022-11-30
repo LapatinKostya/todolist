@@ -1,6 +1,8 @@
 import {AddTodolistAT, RemoveTodolistAT, SetTodolistsAT} from '../todolists-reducer';
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../../../../api/todolists-api";
 import {AppRootStateType, AppThunk} from "../../../../app/store";
+import {setAppStatusAC} from "../../../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../../../utils/error-utils";
 
 const initialState: TasksStateType = {}
 
@@ -39,7 +41,7 @@ export const removeTaskAC = (taskId: string, todolistId: string) =>
     ({type: 'REMOVE-TASK', taskId: taskId, todolistId: todolistId} as const)
 export const addTaskAC = (todolistId: string, task: TaskType) =>
     ({type: 'ADD-TASK', todolistId, task} as const)
-export const setTaskAC = (todolistId: string, tasks: TaskType[]) =>
+export const setTasksAC = (todolistId: string, tasks: TaskType[]) =>
     ({type: 'SET-TASKS', todolistId, tasks} as const)
 export const updateTaskAC = (todolistId: string, taskId: string, task: TaskType) =>
     ({type: 'UPDATE-TASK', todolistId, taskId, task} as const)
@@ -47,23 +49,42 @@ export const updateTaskAC = (todolistId: string, taskId: string, task: TaskType)
 // thunks
 export const setTasksTC = (todolistId: string): AppThunk =>
     (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTasks(todolistId)
             .then((res) => {
-                dispatch(setTaskAC(todolistId, res.data.items))
+                dispatch(setTasksAC(todolistId, res.data.items))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 export const removeTasksTC = (todolistId: string, taskId: string): AppThunk =>
     (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.deleteTask(todolistId, taskId)
-            .then(() => dispatch(removeTaskAC(taskId, todolistId)))
+            .then(() => {
+                dispatch(removeTaskAC(taskId, todolistId))
+                dispatch(setAppStatusAC('succeeded'))
+            })
+
     }
 export const createTasksTC = (todolistId: string, title: string): AppThunk =>
     (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.createTask(todolistId, title)
-            .then((res) => dispatch(addTaskAC(todolistId, res.data.data.item)))
+            .then((res) => {
+                if (res.data.resultCode === 0) {
+                    dispatch(addTaskAC(todolistId, res.data.data.item))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    handleServerAppError(res.data, dispatch)
+                }
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
+            })
     }
 export const updateTC = (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType): AppThunk =>
     (dispatch, getState: () => AppRootStateType) => {
+
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
         if (!task) {
@@ -80,7 +101,16 @@ export const updateTC = (todolistId: string, taskId: string, domainModel: Update
             ...domainModel
         }
         todolistsAPI.updateTask(todolistId, taskId, model)
-            .then((res) => dispatch(updateTaskAC(todolistId, taskId, res.data.data.item)))
+            .then((res) => {
+                if (res.data.resultCode === 0) {
+                    dispatch(updateTaskAC(todolistId, taskId, res.data.data.item))
+                } else {
+                    handleServerAppError(res.data, dispatch)
+                }
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
+            })
     }
 
 // types
@@ -92,10 +122,10 @@ type UpdateDomainTaskModelType = {
     startDate?: string
     deadline?: string
 }
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: TaskType[]
 }
-type SetTaskAT = ReturnType<typeof setTaskAC>
+type SetTaskAT = ReturnType<typeof setTasksAC>
 type RemoveTaskAT = ReturnType<typeof removeTaskAC>
 type AddTaskAT = ReturnType<typeof addTaskAC>
 type UpdateTaskAT = ReturnType<typeof updateTaskAC>
