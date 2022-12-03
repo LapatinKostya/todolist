@@ -1,6 +1,7 @@
 import {todolistsAPI, TodolistType} from "../../../api/todolists-api";
 import {AppThunk} from "../../../app/store";
-import {RequestStatusType, setAppStatusAC, setAppErrorAC} from "../../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC} from "../../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -17,7 +18,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
         case 'SET-TODOLISTS' :
             return action.todolists.map(t => ({...t, filter: 'all', entityStatus: 'idle'}))
         case "CHANGE-TODOLIST-ENTITY-STATUS":
-            return  state.map(t=> t.id === action.id? {...t, entityStatus: action.entityStatus}: t)
+            return state.map(t => t.id === action.id ? {...t, entityStatus: action.entityStatus} : t)
         default:
             return state;
     }
@@ -55,42 +56,56 @@ export const setTodolistsTC = (): AppThunk => async dispatch => {
         dispatch(setAppStatusAC("failed"))
     }
 }
-export const removeTodolistTC = (todolistId: string): AppThunk =>
-    (dispatch) => {
-        dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
-        todolistsAPI.deleteTodolist(todolistId)
-            .then(() => {
-                dispatch(removeTodolistAC(todolistId))
+export const removeTodolistTC = (todolistId: string): AppThunk => dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
+    todolistsAPI.deleteTodolist(todolistId)
+        .then((res) => {
+            if (res.data.resultCode === 0) {
                 dispatch(changeTodolistEntityStatusAC(todolistId, "succeeded"))
-            })
+                dispatch(setAppStatusAC('succeeded'))
+                dispatch(removeTodolistAC(todolistId))
+            } else {
+                handleServerAppError(res.data, dispatch)
+                dispatch(changeTodolistEntityStatusAC(todolistId, "failed"))
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
+            dispatch(changeTodolistEntityStatusAC(todolistId, "failed"))
+        })
+}
+export const addTodolistTC = (title: string): AppThunk => dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    todolistsAPI.createTodolist(title)
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(addTodolistAC(res.data.data.item))
+                dispatch(setAppStatusAC("succeeded"))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
+        })
 
-    }
-export const addTodolistTC = (title: string): AppThunk =>
-    (dispatch) => {
-        dispatch(setAppStatusAC('loading'))
-        todolistsAPI.createTodolist(title)
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    dispatch(addTodolistAC(res.data.data.item))
-                    dispatch(setAppStatusAC("succeeded"))
-                } else {
-                    if (res.data.messages.length) {
-                        dispatch(setAppErrorAC(res.data.messages[0]))
-                    } else {
-                        dispatch(setAppErrorAC('some error'))
-                    }
-                    dispatch(setAppStatusAC('failed'))
-                }
-
-            })
-    }
-export const updateTodolistTitleTC = (todolistId: string, title: string): AppThunk =>
-    (dispatch) => {
-        todolistsAPI.updateTodolistTitle(todolistId, title)
-            .then(() => {
+}
+export const updateTodolistTitleTC = (todolistId: string, title: string): AppThunk => dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    todolistsAPI.updateTodolistTitle(todolistId, title)
+        .then((res) => {
+            if (res.data.resultCode === 0) {
                 dispatch(updateTodolistTitleAC(todolistId, title))
-            })
-    }
+                dispatch(setAppStatusAC("succeeded"))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
+        })
+}
 
 // types
 export type FilterValuesType = 'all' | 'active' | 'completed';
