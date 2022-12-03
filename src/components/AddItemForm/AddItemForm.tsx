@@ -43,6 +43,7 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
                    onKeyPress={onKeyPressHandler}
                    label="Title"
                    helperText={error}
+                   disabled={props.disabled}
         />
         <IconButton color="primary" onClick={addItem} disabled={props.disabled}>
             <AddBox/>
