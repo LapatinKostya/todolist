@@ -6,15 +6,15 @@ import Button from '@mui/material/Button'
 import {Delete} from '@mui/icons-material'
 import {Task} from './Task/Task'
 import {FilterValuesType} from "./todolists-reducer";
-import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {TaskStatuses} from "../../../api/todolists-api";
 import {useAppDispatch} from "../../../app/store";
-import {setTasksTC} from "./Task/tasks-reducer";
+import {setTasksTC, TaskDomainType} from "./Task/tasks-reducer";
 import {RequestStatusType} from "../../../app/app-reducer";
 
 type PropsType = {
     id: string
     title: string
-    tasks: Array<TaskType>
+    tasks: TaskDomainType[]
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, status: TaskStatuses) => void
@@ -69,6 +69,7 @@ export const Todolist = React.memo(function (props: PropsType) {
                 tasksForTodolist.map(t => <Task
                     key={t.id}
                     task={t}
+                    entityTaskStatus={t.entityTaskStatus}
                     todolistId={props.id}
                     removeTask={props.removeTask}
                     changeTaskTitle={props.changeTaskTitle}
