@@ -14,7 +14,7 @@ import {useAppSelector} from "./store";
 
 
 function App() {
-    const status = useAppSelector(state => state.app.status)
+    const appStatus = useAppSelector(state => state.app.status)
 
     return (
         <div className="App">
@@ -29,10 +29,10 @@ function App() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-                {status === 'loading' && <LinearProgress/>}
+                {appStatus === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList/>
+                <TodolistsList appStatus={appStatus}/>
             </Container>
         </div>
     );

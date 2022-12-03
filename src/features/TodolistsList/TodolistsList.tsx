@@ -14,8 +14,11 @@ import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
+import {RequestStatusType} from "../../app/app-reducer";
 
-type TodolistsListPropsType = {}
+type TodolistsListPropsType = {
+    appStatus: RequestStatusType
+}
 
 export const TodolistsList: React.FC<TodolistsListPropsType> = (props) => {
 
@@ -57,7 +60,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = (props) => {
     return (
         <>
             <Grid container style={{padding: '20px'}}>
-                <AddItemForm addItem={addTodolist}/>
+                <AddItemForm addItem={addTodolist} disabled={props.appStatus === 'loading'}/>
             </Grid>
             <Grid container spacing={3}>
                 {
