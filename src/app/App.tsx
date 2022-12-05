@@ -18,7 +18,7 @@ import {CircularProgress} from "@mui/material";
 
 
 function App() {
-    const status = useAppSelector(state => state.app.status)
+    const appStatus = useAppSelector(state => state.app.status)
     const isInitialized = useAppSelector(state => state.app.isInitialized)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
@@ -49,11 +49,11 @@ function App() {
                     </Typography>
                     {isLoggedIn && <Button onClick={logOut} color="inherit">Logout</Button>}
                 </Toolbar>
-                {status === 'loading' && <LinearProgress/>}
+                {appStatus === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
                 <Routes>
-                    <Route path='/' element={<TodolistsList/>}/>
+                    <Route path='/' element={<TodolistsList appStatus={appStatus}/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/404' element={<h1>404: PAGE NOT FOUND</h1>}/>
                     <Route path='*' element={<Navigate to='/404'/>}/>
