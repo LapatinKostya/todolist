@@ -36,8 +36,8 @@ export const Task = React.memo((props: TaskPropsType) => {
             disabled={isDisabled}
         />
 
-        <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
-        <IconButton onClick={onClickHandler} disabled={isDisabled}>
+        <EditableSpan value={props.task.title} onChange={onTitleChangeHandler} isDisabled={isDisabled}/>
+        <IconButton onClick={onClickHandler} disabled={isDisabled} >
             <Delete/>
         </IconButton>
     </div>

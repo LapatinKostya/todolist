@@ -56,12 +56,15 @@ export const Todolist = React.memo(function (props: PropsType) {
     if (props.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
-
     const isDisabled = props.entityStatus === 'loading'
 
     return <div>
         <h3>
-            <EditableSpan value={props.title} onChange={changeTodolistTitle}/>
+            <EditableSpan
+                value={props.title}
+                onChange={changeTodolistTitle}
+                isDisabled={isDisabled}
+            />
             <IconButton onClick={removeTodolist} disabled={isDisabled}>
                 <Delete/>
             </IconButton>
@@ -84,21 +87,21 @@ export const Todolist = React.memo(function (props: PropsType) {
             <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}
                     color={'inherit'}
-                    disabled={isDisabled}
+                    disabled={props.entityStatus === 'loading'}
             >
                 All
             </Button>
             <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
                     onClick={onActiveClickHandler}
                     color={'primary'}
-                    disabled={isDisabled}
+                    disabled={props.entityStatus === 'loading'}
             >
                 Active
             </Button>
             <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
                     onClick={onCompletedClickHandler}
                     color={'secondary'}
-                    disabled={isDisabled}
+                    disabled={props.entityStatus === 'loading'}
             >
                 Completed
             </Button>

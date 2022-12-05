@@ -21,7 +21,7 @@ export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddle
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
-// all action type for all app
+// all action type
 type ActionType =
     | TodolistsActionTypes
     | TasksActionTypes
