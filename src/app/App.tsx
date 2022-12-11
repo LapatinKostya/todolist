@@ -41,12 +41,12 @@ function App() {
             <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
+                    {/*<IconButton edge="start" color="inherit" aria-label="menu">*/}
+                    {/*    <Menu/>*/}
+                    {/*</IconButton>*/}
+                    {/*<Typography variant="h6">*/}
+                    {/*    News*/}
+                    {/*</Typography>*/}
                     {isLoggedIn && <Button onClick={logOut} color="inherit">Logout</Button>}
                 </Toolbar>
                 {appStatus === 'loading' && <LinearProgress/>}
