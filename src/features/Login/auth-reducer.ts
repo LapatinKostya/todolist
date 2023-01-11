@@ -73,6 +73,5 @@ export const meTC = (): AppThunk => (dispatch) => {
         )
 }
 
-
 // types
 export type AuthReducerAT = ReturnType<typeof setIsLoggedInAC> | SetAppErrorAT | SetAppStatusAT
