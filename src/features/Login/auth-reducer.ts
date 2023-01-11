@@ -1,4 +1,4 @@
-import {SetAppErrorAT, setAppIsInitializedAC, setAppStatusAC, SetAppStatusAT} from '../../app/app-reducer'
+import {setAppIsInitializedAC, setAppStatusAC} from '../../app/app-reducer'
 import {AppThunk} from "../../app/store";
 import {authAPI, AuthDataType} from "../../api/todolists-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
@@ -7,7 +7,6 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 const initialState = {
   isLoggedIn: false,
 }
-// type InitialStateType = typeof initialState
 
 const slice = createSlice({
   name: 'auth',
@@ -25,12 +24,12 @@ const {setIsLoggedInAC} = slice.actions
 
 // thunks
 export const loginTC = (data: AuthDataType): AppThunk => dispatch => {
-  dispatch(setAppStatusAC('loading'))
+  dispatch(setAppStatusAC({status :'loading'}))
   authAPI.login(data)
       .then((res) => {
         if (res.data.resultCode === 0) {
           dispatch(setIsLoggedInAC({value: true}))
-          dispatch(setAppStatusAC('succeeded'))
+          dispatch(setAppStatusAC({status :'loading'}))
         } else {
           handleServerAppError(res.data, dispatch)
         }
@@ -40,12 +39,12 @@ export const loginTC = (data: AuthDataType): AppThunk => dispatch => {
       })
 }
 export const logOutTC = (): AppThunk => dispatch => {
-  dispatch(setAppStatusAC('loading'))
+  dispatch(setAppStatusAC({status :'loading'}))
   authAPI.logOut()
       .then((res) => {
         if (res.data.resultCode === 0) {
           dispatch(setIsLoggedInAC({value: false}))
-          dispatch(setAppStatusAC('succeeded'))
+          dispatch(setAppStatusAC({status :'loading'}))
         } else {
           handleServerAppError(res.data, dispatch)
         }
@@ -55,12 +54,12 @@ export const logOutTC = (): AppThunk => dispatch => {
       })
 }
 export const meTC = (): AppThunk => dispatch => {
-  dispatch(setAppStatusAC('loading'))
+  dispatch(setAppStatusAC({status :'loading'}))
   authAPI.me()
       .then((res) => {
         if (res.data.resultCode === 0) {
           dispatch(setIsLoggedInAC({value: true}))
-          dispatch(setAppStatusAC('succeeded'))
+          dispatch(setAppStatusAC({status :'loading'}))
 
         } else {
           handleServerAppError(res.data, dispatch)
@@ -70,10 +69,7 @@ export const meTC = (): AppThunk => dispatch => {
         handleServerNetworkError(error, dispatch)
       })
       .finally(() => {
-            dispatch(setAppIsInitializedAC(true))
+            dispatch(setAppIsInitializedAC({isInitialized: true}))
           }
       )
 }
-
-// types
-export type AuthReducerAT = ReturnType<typeof setIsLoggedInAC> | SetAppErrorAT | SetAppStatusAT

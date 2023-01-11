@@ -1,26 +1,28 @@
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
 const initialState: InitialStateType = {
     status: 'idle',
     error: null,
     isInitialized: false
 }
-
-export const appReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-            return {...state, status: action.status}
-        case 'APP/SET-ERROR':
-            return {...state, error: action.error}
-        case 'SET-INITIALIZED':
-            return {...state, isInitialized: action.isInitialized}
-        default:
-            return {...state}
+const slice = createSlice({
+    name: 'auth',
+    initialState: initialState,
+    reducers: {
+        setAppErrorAC(state, action: PayloadAction<{error: string | null}>) {
+            state.error = action.payload.error;
+        },
+        setAppStatusAC(state, action: PayloadAction<{status: RequestStatusType}>) {
+            state.status = action.payload.status;
+        },
+        setAppIsInitializedAC(state, action: PayloadAction<{isInitialized: boolean}>) {
+            state.isInitialized = action.payload.isInitialized;
+        },
     }
-}
+})
 
-// actions
-export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
-export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
-export const setAppIsInitializedAC = (isInitialized: boolean) => ({type: 'SET-INITIALIZED', isInitialized} as const)
+export const appReducer = slice.reducer
+export const {setAppErrorAC, setAppStatusAC, setAppIsInitializedAC} = slice.actions
 
 // types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
