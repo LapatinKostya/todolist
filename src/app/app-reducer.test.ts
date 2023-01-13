@@ -7,7 +7,6 @@ beforeEach(()=> {
         status: 'idle',
         error: null,
         isInitialized: false
-
     }
 });
 test('Correct error message should be set',()=> {
