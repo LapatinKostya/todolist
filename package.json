@@ -39,6 +39,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
+    "jest:integration": "jest -c integration/jest.config.js",
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },
@@ -69,6 +71,10 @@
     "@storybook/node-logger": "6.5.13",
     "@storybook/preset-create-react-app": "4.1.2",
     "@storybook/react": "6.5.13",
+    "jest-image-snapshot": "^6.1.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^5.1.0",
+    "start-server-and-test": "^1.11.2",
     "webpack": "5"
   }
 }
