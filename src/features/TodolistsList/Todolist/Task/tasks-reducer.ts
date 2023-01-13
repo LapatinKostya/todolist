@@ -1,5 +1,5 @@
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../../../../api/todolists-api"
-import {RootState, AppThunk} from "../../../../app/store"
+import {AppThunk, RootState} from "../../../../app/store"
 import {RequestStatusType, setAppStatusAC} from "../../../../app/app-reducer"
 import {handleServerAppError, handleServerNetworkError} from "../../../../utils/error-utils"
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -18,8 +18,8 @@ const slice = createSlice({
             tasks.splice(index, 1)
           }
         },
-        addTaskAC(state, action: PayloadAction<{ todolistId: string, task: TaskType }>) {
-          state[action.payload.todolistId].unshift({...action.payload.task, entityTaskStatus: 'idle'})
+        addTaskAC(state, action: PayloadAction<TaskType>) {
+          state[action.payload.todoListId].unshift({...action.payload, entityTaskStatus: 'idle'})
         },
         updateTaskAC(state, action: PayloadAction<{ todolistId: string, taskId: string, task: TaskType }>) {
           let tasks = state[action.payload.todolistId]
@@ -96,7 +96,7 @@ export const createTasksTC = (todolistId: string, title: string): AppThunk => di
   todolistsAPI.createTask(todolistId, title)
       .then((res) => {
         if (res.data.resultCode === 0) {
-          dispatch(addTaskAC({todolistId, task: res.data.data.item}))
+          dispatch(addTaskAC(res.data.data.item))
           dispatch(setAppStatusAC({status: 'succeeded'}))
         } else {
           handleServerAppError(res.data, dispatch)
