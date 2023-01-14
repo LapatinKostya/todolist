@@ -4,17 +4,20 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
-import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {useAppDispatch, useAppSelector} from "./store";
-import {Login} from "../features/Login/Login";
-import {Navigate, Route, Routes} from "react-router-dom";
 import {logOutTC, meTC} from "../features/Login/auth-reducer";
 import {CircularProgress} from "@mui/material";
+import {Navigate, Route, Routes} from 'react-router-dom'
+import {TodolistsList} from "../features/TodolistsList/TodolistsList";
+import {Login} from "../features/Login/Login";
 
+type PropsType = {
+  demo?: boolean
+}
 
-function App() {
+function App({demo = false}: PropsType) {
   const appStatus = useAppSelector(state => state.app.status)
   const isInitialized = useAppSelector(state => state.app.isInitialized)
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -24,7 +27,9 @@ function App() {
   }
 
   useEffect(() => {
-    dispatch(meTC())
+    if (!demo) {
+      dispatch(meTC())
+    }
   }, [dispatch])
 
   if (!isInitialized) {
@@ -45,7 +50,7 @@ function App() {
         <Container fixed>
           <Routes>
             <Route path='/' element={<Navigate to={'/todolist'}/>}/>
-            <Route path='/todolist' element={<TodolistsList appStatus={appStatus}/>}/>
+            <Route path='/todolist' element={<TodolistsList appStatus={appStatus} demo={demo}/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/404' element={<h1>404: PAGE NOT FOUND</h1>}/>
             <Route path='*' element={<Navigate to='/404'/>}/>

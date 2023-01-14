@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import {
-  changeTodolistFilterAC,
   addTodolistTC,
-  setTodolistsTC,
+  changeTodolistFilterAC,
   FilterValuesType,
   removeTodolistTC,
+  setTodolistsTC,
   updateTodolistTitleTC
 } from "./Todolist/todolists-reducer";
 import {createTasksTC, removeTasksTC, updateTC} from "./Todolist/Task/tasks-reducer";
@@ -19,9 +19,10 @@ import {RequestStatusType} from "../../app/app-reducer";
 
 type TodolistsListPropsType = {
   appStatus: RequestStatusType
+  demo?: boolean
 }
 
-export const TodolistsList: React.FC<TodolistsListPropsType> = (props) => {
+export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo}) => {
 
   const todolists = useAppSelector(state => state.todolists)
   const tasks = useAppSelector(state => state.tasks)
@@ -66,7 +67,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = (props) => {
   return (
       <>
         <Grid container style={{padding: '20px'}}>
-          <AddItemForm addItem={addTodolist} disabled={props.appStatus === 'loading'}/>
+          <AddItemForm addItem={addTodolist} disabled={appStatus === 'loading'}/>
         </Grid>
         <Grid container spacing={3}>
           {
@@ -90,6 +91,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = (props) => {
                           changeTaskTitle={updateTaskTitle}
                           changeTodolistTitle={updateTodolistTitle}
                           entityStatus={tl.entityStatus}
+                          demo={demo}
                       />
                     </Paper>
                   </Grid>)
