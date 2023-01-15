@@ -1,13 +1,13 @@
 import App from './App'
 import {ReduxStoreProviderDecorator} from '../stories/decorators/ReduxStoreProviderDecorator'
-import {HashRouter} from "react-router-dom";
+import {withRouter} from "storybook-addon-react-router-v6";
 
 export default {
   title: 'App Stories',
   component: App,
-  decorators: [ReduxStoreProviderDecorator]
+  decorators: [ReduxStoreProviderDecorator, withRouter]
 }
 
 export const AppBaseExample = (props: any) => {
-  return (<HashRouter><App demo={true}/></HashRouter>)
+  return (<App demo={true}/>)
 }

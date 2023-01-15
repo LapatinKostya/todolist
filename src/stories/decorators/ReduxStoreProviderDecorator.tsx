@@ -57,7 +57,6 @@ const initialGlobalState: RootState = {
   }
 };
 
-// export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunkMiddleware));
 export const storyBookStore = configureStore({
   reducer: rootReducer,
   preloadedState: initialGlobalState,
