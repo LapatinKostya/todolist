@@ -3,9 +3,9 @@ import {useAppDispatch, useAppSelector} from "../../app/store";
 import {
   addTodolistTC,
   changeTodolistFilterAC,
+  fetchTodolists,
   FilterValuesType,
   removeTodolistTC,
-  setTodolistsTC,
   updateTodolistTitleTC
 } from "./Todolist/todolists-reducer";
 import {createTasksTC, removeTasksTC, updateTC} from "./Todolist/Task/tasks-reducer";
@@ -30,7 +30,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setTodolistsTC())
+    dispatch(fetchTodolists())
   }, [dispatch])
 
   const removeTask = useCallback(function (todolistId: string, taskId: string) {

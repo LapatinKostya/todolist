@@ -2,10 +2,24 @@ import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelTyp
 import {AppThunk, RootState} from "../../../../app/store"
 import {RequestStatusType, setAppStatusAC} from "../../../../app/app-reducer"
 import {handleServerAppError, handleServerNetworkError} from "../../../../utils/error-utils"
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "../todolists-reducer";
 
 const initialState: TasksStateType = {}
+
+export const fetchTasks = createAsyncThunk(
+    'tasks/fetchTasks',
+    async (todolistId: string, thunkAPI) => {
+      thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+      return todolistsAPI.getTasks(todolistId)
+
+          .then((res) => {
+            const tasks = res.data.items
+            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+            return {todolistId, tasks}
+          })
+    }
+)
 
 const slice = createSlice({
       name: 'tasks',
@@ -36,9 +50,6 @@ const slice = createSlice({
             task.entityTaskStatus = action.payload.entityStatus
           }
         },
-        setTasksAC(state, action: PayloadAction<{ todolistId: string, tasks: TaskType[] }>) {
-          state[action.payload.todolistId] = action.payload.tasks.map(t => ({...t, entityTaskStatus: 'idle'}))
-        },
       },
       extraReducers: (builder) => {
         builder
@@ -53,24 +64,18 @@ const slice = createSlice({
             .addCase(removeTodolistAC, (state, action) => {
               delete state[action.payload.id]
             })
+            .addCase(fetchTasks.fulfilled, (state, action) => {
+              state[action.payload.todolistId] = action.payload.tasks.map(t => ({...t, entityTaskStatus: 'idle'}))
+            })
       }
     }
 )
 
 export const tasksReducer = slice.reducer
 
-export const {removeTaskAC, addTaskAC, updateTaskAC, changeTaskEntityStatusAC, setTasksAC} = slice.actions
+export const {removeTaskAC, addTaskAC, updateTaskAC, changeTaskEntityStatusAC} = slice.actions
 // thunks
-export const setTasksTC = (todolistId: string): AppThunk => dispatch => {
-  dispatch(setAppStatusAC({status: 'loading'}))
-  todolistsAPI.getTasks(todolistId)
-      .then((res) => {
-        dispatch(setTasksAC({todolistId, tasks: res.data.items}))
-        dispatch(setAppStatusAC({status: 'succeeded'}))
-      }).catch((error) => {
-    handleServerNetworkError(error, dispatch)
-  })
-}
+
 export const removeTasksTC = (todolistId: string, taskId: string): AppThunk => dispatch => {
   dispatch(setAppStatusAC({status: 'loading'}))
   dispatch(changeTaskEntityStatusAC({todolistId, taskId, entityStatus: 'loading'}))
