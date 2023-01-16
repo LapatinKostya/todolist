@@ -48,8 +48,13 @@ export const Login = () => {
     },
 
     onSubmit: async (values, formikHelpers: FormikHelpers<TFormValues>) => {
-      const res = await dispatch(login(values))
-      formikHelpers.setFieldError('email' ,'test error')
+      const action = await dispatch(login(values))
+      if(login.rejected.match(action)){
+        if(action.payload?.fieldsErrors?.length){
+          const error = action.payload?.fieldsErrors[0]
+          formikHelpers.setFieldError(error.field ,error.error)
+        }
+      }
     },
   })
 
