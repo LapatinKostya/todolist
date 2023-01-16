@@ -24,26 +24,24 @@ export const removeTask = createAsyncThunk(
         taskId: param.taskId,
         entityStatus: 'loading'
       }))
-      return todolistsAPI.deleteTask(param.todolistId, param.taskId)
-          .then(() => {
-            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-            thunkAPI.dispatch(changeTaskEntityStatusAC({
-              todolistId: param.todolistId,
-              taskId: param.taskId,
-              entityStatus: 'succeeded'
-            }))
-            return {taskId: param.taskId, todolistId: param.todolistId}
-          })
-      // .catch((error) => {
+      const res = todolistsAPI.deleteTask(param.todolistId, param.taskId)
+
+      thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+      thunkAPI.dispatch(changeTaskEntityStatusAC({
+        todolistId: param.todolistId,
+        taskId: param.taskId,
+        entityStatus: 'succeeded'
+      }))
+      return {taskId: param.taskId, todolistId: param.todolistId}
+      // catch (error: any) {
       //   handleServerNetworkError(error, thunkAPI.dispatch)
-      //   thunkAPI.dispatch(changeTaskEntityStatusAC({
-      //     todolistId: param.todolistId,
-      //     taskId: param.taskId,
-      //     entityStatus: 'failed'
-      //   }))
-      // })
-    }
-)
+      //     thunkAPI.dispatch(changeTaskEntityStatusAC({
+      //       todolistId: param.todolistId,
+      //       taskId: param.taskId,
+      //       entityStatus: 'failed'
+      //     }))
+      // }
+    })
 
 const slice = createSlice({
       name: 'tasks',
