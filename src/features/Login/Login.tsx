@@ -8,10 +8,10 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
-// import {loginTC} from "./auth-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {login} from "./auth-reducer";
+import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
+import {useAppSelector} from "../../utils/hooks/useAppSelector";
 
 type FormikErrorType = {
   email?: string

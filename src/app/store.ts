@@ -2,7 +2,6 @@ import {tasksReducer} from '../features/TodolistsList/Todolist/Task/tasks-reduce
 import {todolistsReducer} from '../features/TodolistsList/Todolist/todolists-reducer';
 import {AnyAction, combineReducers} from 'redux';
 import thunkMiddleware, {ThunkAction} from "redux-thunk";
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {appReducer} from "./app-reducer";
 import {authReducer} from "../features/Login/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
@@ -19,10 +18,6 @@ export const store = configureStore({
 })
 
 export type TRootReducer = typeof rootReducer
-
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch: () => AppDispatch = useDispatch
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 // type
 export type AppThunk<ReturnType = void> = ThunkAction<

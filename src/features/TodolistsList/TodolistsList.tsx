@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from "react";
-import {useAppDispatch, useAppSelector} from "../../app/store";
+
 import {
   addTodolistTC,
   changeTodolistFilterAC,
@@ -16,6 +16,8 @@ import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 import {RequestStatusType} from "../../app/app-reducer";
+import {useAppSelector} from "../../utils/hooks/useAppSelector";
+import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
 
 type TodolistsListPropsType = {
   appStatus: RequestStatusType

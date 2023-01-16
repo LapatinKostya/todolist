@@ -6,12 +6,13 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {useAppDispatch, useAppSelector} from "./store";
 import {logOutTC, meTC} from "../features/Login/auth-reducer";
 import {CircularProgress} from "@mui/material";
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {Login} from "../features/Login/Login";
+import {useAppSelector} from "../utils/hooks/useAppSelector";
+import {useAppDispatch} from "../utils/hooks/useAppDispatch";
 
 type PropsType = {
   demo?: boolean
