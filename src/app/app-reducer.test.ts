@@ -1,6 +1,12 @@
-import {appReducer, InitialStateType, setAppErrorAC, setAppStatusAC} from './app-reducer'
+import {appReducer, RequestStatusType, setAppErrorAC, setAppStatusAC} from './app-reducer'
 
-let startState: InitialStateType  =
+type startStateType = {
+    status: RequestStatusType
+    error :string| null
+    isInitialized: boolean
+}
+
+let startState: startStateType
 
 beforeEach(()=> {
     startState = {

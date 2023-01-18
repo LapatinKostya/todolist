@@ -6,13 +6,14 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {logOutTC, meTC} from "../features/Login/auth-reducer";
+import {logOut} from "../features/Login/auth-reducer";
 import {CircularProgress} from "@mui/material";
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {Login} from "../features/Login/Login";
 import {useAppSelector} from "../utils/hooks/useAppSelector";
 import {useAppDispatch} from "../utils/hooks/useAppDispatch";
+import {initialiseApp} from "./app-reducer";
 
 type PropsType = {
   demo?: boolean
@@ -23,13 +24,13 @@ function App({demo = false}: PropsType) {
   const isInitialized = useAppSelector(state => state.app.isInitialized)
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
-  const logOut = () => {
-    dispatch(logOutTC())
+  const logout = () => {
+    dispatch(logOut())
   }
 
   useEffect(() => {
     if (!demo) {
-      dispatch(meTC())
+      dispatch(initialiseApp())
     }
   }, [dispatch])
 
@@ -44,7 +45,7 @@ function App({demo = false}: PropsType) {
         <ErrorSnackbar/>
         <AppBar position="static">
           <Toolbar>
-            {isLoggedIn && <Button onClick={logOut} color="inherit">Logout</Button>}
+            {isLoggedIn && <Button onClick={logout} color="inherit">Logout</Button>}
           </Toolbar>
           {appStatus === 'loading' && <LinearProgress/>}
         </AppBar>
