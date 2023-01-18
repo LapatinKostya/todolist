@@ -3,7 +3,7 @@ import {RootState} from "../../../../app/store"
 import {RequestStatusType, setAppStatusAC} from "../../../../app/app-reducer"
 import {handleServerAppError, handleServerNetworkError} from "../../../../utils/error-utils"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "../todolists-reducer";
+import {addTodolistAC, fetchTodolists, removeTodolistAC} from "../todolists-reducer";
 import {AxiosError} from "axios";
 
 
@@ -119,7 +119,7 @@ const slice = createSlice({
       },
       extraReducers: (builder) => {
         builder
-            .addCase(setTodolistsAC, (state, action) => {
+            .addCase(fetchTodolists.fulfilled, (state, action) => {
               action.payload.todolists.forEach(t => {
                 state[t.id] = []
               })
