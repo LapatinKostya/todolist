@@ -3,7 +3,7 @@ import {RootState} from "../../../../app/store"
 import {RequestStatusType, setAppStatusAC} from "../../../../app/app-reducer"
 import {handleServerAppError, handleServerNetworkError} from "../../../../utils/error-utils"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {addTodolistAC, fetchTodolists, removeTodolistAC} from "../todolists-reducer";
+import {addTodolist, fetchTodolists, removeTodolist} from "../todolists-reducer";
 import {AxiosError} from "axios";
 
 
@@ -124,11 +124,11 @@ const slice = createSlice({
                 state[t.id] = []
               })
             })
-            .addCase(addTodolistAC, (state, action) => {
+            .addCase(addTodolist.fulfilled, (state, action) => {
               state[action.payload.todolist.id] = []
             })
-            .addCase(removeTodolistAC, (state, action) => {
-              delete state[action.payload.id]
+            .addCase(removeTodolist.fulfilled, (state, action) => {
+              delete state[action.payload.todolistId]
             })
             .addCase(fetchTasks.fulfilled, (state, action) => {
               state[action.payload.todolistId] = action.payload.tasks.map(t => ({...t, entityTaskStatus: 'idle'}))
