@@ -12,6 +12,7 @@ import {Navigate} from "react-router-dom";
 import {login} from "./auth-reducer";
 import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
 import {useAppSelector} from "../../utils/hooks/useAppSelector";
+import {selectIsLoggedIn} from "./selectors";
 
 type FormikErrorType = {
   email?: string
@@ -25,8 +26,9 @@ type TFormValues = {
   rememberMe: boolean
 }
 export const Login = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
   const formik = useFormik({
     initialValues: {

@@ -18,6 +18,7 @@ import {Navigate} from "react-router-dom";
 import {RequestStatusType} from "../../app/app-reducer";
 import {useAppSelector} from "../../utils/hooks/useAppSelector";
 import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
+import {selectIsLoggedIn} from "../Auth/selectors";
 
 type TodolistsListPropsType = {
   appStatus: RequestStatusType
@@ -28,7 +29,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo
 
   const todolists = useAppSelector(state => state.todolists)
   const tasks = useAppSelector(state => state.tasks)
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -95,9 +96,9 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo
                           demo={demo}
                       />
                     </Paper>
-                  </Grid>)
-            })
-          }
+                  </Grid>
+              )
+            })}
         </Grid>
       </>
   )

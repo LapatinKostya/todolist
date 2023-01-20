@@ -9,7 +9,7 @@ import {appReducer} from '../../app/app-reducer'
 import {tasksReducer} from "../../features/TodolistsList/Todolist/Task/tasks-reducer";
 import {todolistsReducer} from "../../features/TodolistsList/Todolist/todolists-reducer";
 import {RootState, TRootReducer} from "../../app/store";
-import {authReducer} from "../../features/Login/auth-reducer";
+import {authReducer} from "../../features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import thunkMiddleware from "redux-thunk";
 

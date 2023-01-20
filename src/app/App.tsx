@@ -6,23 +6,25 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {logOut} from "../features/Login/auth-reducer";
-import {CircularProgress} from "@mui/material";
+import {logOut} from "../features/Auth/auth-reducer";
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
-import {Login} from "../features/Login/Login";
+import {Login} from "../features/Auth/Login";
 import {useAppSelector} from "../utils/hooks/useAppSelector";
 import {useAppDispatch} from "../utils/hooks/useAppDispatch";
 import {initialiseApp} from "./app-reducer";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import {selectIsLoggedIn} from "../features/Auth/selectors";
 
 type PropsType = {
   demo?: boolean
 }
 
 function App({demo = false}: PropsType) {
-  const appStatus = useAppSelector(state => state.app.status)
-  const isInitialized = useAppSelector(state => state.app.isInitialized)
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+  const appStatus = useAppSelector(selectStatus)
+  const isInitialized = useAppSelector(selectIsInitialized)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+
   const dispatch = useAppDispatch()
   const logout = () => {
     dispatch(logOut())
@@ -34,12 +36,12 @@ function App({demo = false}: PropsType) {
     }
   }, [dispatch])
 
-  if (!isInitialized) {
-    return <div
-        style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-      <CircularProgress/>
-    </div>
-  }
+  // if (!isInitialized) {
+  //   return <div
+  //       style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+  //     <CircularProgress/>
+  //   </div>
+  // }
   return (
       <div className="App">
         <ErrorSnackbar/>
