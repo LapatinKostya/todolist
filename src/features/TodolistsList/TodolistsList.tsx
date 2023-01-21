@@ -1,5 +1,4 @@
-import React, {useCallback, useEffect} from "react";
-import {TaskStatuses} from "../../api/todolists-api";
+import React, {useEffect} from "react";
 import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
@@ -18,7 +17,6 @@ type TodolistsListPropsType = {
 
 export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
   const {
-    updateTask,
     addTodolist,
     fetchTodolists,
   } = useActions()
@@ -27,18 +25,11 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
   const tasks = useAppSelector(state => state.tasks)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
-  console.log('list render')
+  console.log('lists')
 
   useEffect(() => {
     fetchTodolists()
   }, [])
-
-  const updateTaskStatus = useCallback(function (todolistId: string, taskId: string, status: TaskStatuses) {
-    updateTask({taskId, todolistId, domainModel: {status}})
-  }, []);
-  const updateTaskTitle = useCallback(function (todolistId: string, taskId: string, newTitle: string) {
-    updateTask({todolistId, taskId, domainModel: {title: newTitle}})
-  }, []);
 
   if (!isLoggedIn) {
     return <Navigate to={'/login'}/>
@@ -60,9 +51,7 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
                           id={tl.id}
                           title={tl.title}
                           tasks={allTodolistTasks}
-                          changeTaskStatus={updateTaskStatus}
                           filter={tl.filter}
-                          changeTaskTitle={updateTaskTitle}
                           entityStatus={tl.entityStatus}
                           demo={demo}
                       />
