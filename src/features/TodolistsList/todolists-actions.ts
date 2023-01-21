@@ -1,10 +1,8 @@
-import {todolistsAPI, TodolistType} from "../../../api/todolists-api";
-import {RequestStatusType, setAppStatusAC} from "../../../app/app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import {setAppStatusAC} from "../../app/app-reducer";
+import {todolistsAPI} from "../../api/todolists-api";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {AxiosError} from "axios";
-
-const initialState: TodolistDomainType[] = []
 
 export const fetchTodolists = createAsyncThunk(
     'todolist/fetchTodolists',
@@ -79,53 +77,3 @@ export const updateTodolistTitle = createAsyncThunk(
       }
     }
 )
-
-
-const slice = createSlice({
-  name: 'todolist',
-  initialState: initialState,
-  reducers: {
-    changeTodolistFilterAC(state, action: PayloadAction<{ id: string, filter: FilterValuesType }>) {
-      const index = state.findIndex(tl => tl.id === action.payload.id)
-      state[index].filter = action.payload.filter
-    },
-    changeTodolistEntityStatusAC(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {
-      const index = state.findIndex(tl => tl.id === action.payload.id)
-      state[index].entityStatus = action.payload.entityStatus
-    },
-  },
-  extraReducers: builder => {
-    builder
-        .addCase(fetchTodolists.fulfilled, (state, action) => {
-          return action.payload.todolists.map(t => ({...t, filter: 'all', entityStatus: 'idle'}))
-        })
-        .addCase(removeTodolist.fulfilled, (state, action) => {
-          const index = state.findIndex(tl => tl.id === action.payload.todolistId)
-          state.splice(index, 1)
-        })
-        .addCase(addTodolist.fulfilled, (state, action) => {
-          state.unshift({...action.payload.todolist, filter: "all", entityStatus: 'idle'})
-        })
-        .addCase(updateTodolistTitle.fulfilled, (state, action) => {
-          const index = state.findIndex(tl => tl.id === action.payload.todolistId)
-          state[index].title = action.payload.title
-        })
-  },
-})
-
-export const todolistsReducer = slice.reducer
-
-export const {
-  changeTodolistFilterAC,
-  changeTodolistEntityStatusAC
-} = slice.actions
-
-
-// types
-export type FilterValuesType = 'all' | 'active' | 'completed';
-
-export type TodolistDomainType = TodolistType & {
-  filter: FilterValuesType
-  entityStatus: RequestStatusType
-
-}

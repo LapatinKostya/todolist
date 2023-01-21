@@ -5,11 +5,12 @@ import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import {Delete} from '@mui/icons-material'
 import {Task} from './Task/Task'
-import {FilterValuesType} from "./todolists-reducer";
+import {FilterValuesType} from "../todolists-reducer";
 import {TaskStatuses} from "../../../api/todolists-api";
-import {fetchTasks, TaskDomainType} from "./Task/tasks-reducer";
+import {TaskDomainType} from "../tasks-reducer";
 import {RequestStatusType} from "../../../app/app-reducer";
 import {useAppDispatch} from "../../../utils/hooks/useAppDispatch";
+import {fetchTasks} from "../tasks-actions";
 
 type PropsType = {
   id: string
