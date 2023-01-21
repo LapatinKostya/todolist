@@ -5,16 +5,15 @@ import {addTodolist, fetchTodolists, removeTodolist, updateTodolistTitle} from "
 
 const initialState: TodolistDomainType[] = []
 
-
-const slice = createSlice({
+export const slice = createSlice({
   name: 'todolist',
   initialState: initialState,
   reducers: {
-    changeTodolistFilterAC(state, action: PayloadAction<{ id: string, filter: FilterValuesType }>) {
+    changeTodolistFilter(state, action: PayloadAction<{ id: string, filter: FilterValuesType }>) {
       const index = state.findIndex(tl => tl.id === action.payload.id)
       state[index].filter = action.payload.filter
     },
-    changeTodolistEntityStatusAC(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {
+    changeTodolistEntityStatus(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {
       const index = state.findIndex(tl => tl.id === action.payload.id)
       state[index].entityStatus = action.payload.entityStatus
     },
@@ -40,11 +39,11 @@ const slice = createSlice({
 
 export const todolistsReducer = slice.reducer
 
+// for tests
 export const {
-  changeTodolistFilterAC,
-  changeTodolistEntityStatusAC
+  changeTodolistFilter,
+  changeTodolistEntityStatus
 } = slice.actions
-
 
 // types
 export type FilterValuesType = 'all' | 'active' | 'completed';

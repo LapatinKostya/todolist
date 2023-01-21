@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from "react";
 
-import {changeTodolistFilterAC, FilterValuesType,} from "./todolists-reducer";
+import {FilterValuesType,} from "./todolists-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
 import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
@@ -11,7 +11,6 @@ import {RequestStatusType} from "../../app/app-reducer";
 import {useAppSelector} from "../../utils/hooks/useAppSelector";
 import {authSelectors} from "../Auth";
 import {useActions} from "../../utils/hooks/useActions";
-import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
 
 
 type TodolistsListPropsType = {
@@ -19,9 +18,17 @@ type TodolistsListPropsType = {
   demo?: boolean
 }
 
-export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo}) => {
-  const dispatch = useAppDispatch();
-  const {addTask, updateTask, removeTask, addTodolist, removeTodolist, fetchTodolists, updateTodolistTitle} = useActions()
+export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
+  const {
+    addTask,
+    updateTask,
+    removeTask,
+    addTodolist,
+    removeTodolist,
+    fetchTodolists,
+    updateTodolistTitle,
+    changeTodolistFilter
+  } = useActions()
 
   const todolists = useAppSelector(state => state.todolists)
   const tasks = useAppSelector(state => state.tasks)
@@ -45,8 +52,8 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo
   }, []);
 
   const updateTodolistFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-    dispatch( changeTodolistFilterAC({id: todolistId, filter: value}));
-  }, [dispatch]);
+    changeTodolistFilter({id: todolistId, filter: value})
+  }, []);
   const removeTodolistHandler = useCallback(function (todolistId: string) {
     removeTodolist({todolistId})
   }, []);
