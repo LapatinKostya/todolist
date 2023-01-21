@@ -8,7 +8,7 @@ import {
 import {v1} from 'uuid'
 import {TodolistType} from "../../api/todolists-api";
 import {RequestStatusType} from "../../app/app-reducer";
-import {addTodolist, fetchTodolists, removeTodolist, updateTodolistTitle} from "./todolists-actions";
+import {addTodolist, changeTodolistTitle, fetchTodolists, removeTodolist} from "./todolists-actions";
 
 let todolistId1: string
 let todolistId2: string
@@ -51,7 +51,7 @@ test('correct todolist should change its name', () => {
   const newTodolistTitle = 'New Todolist'
   const params = {todolistId: todolistId2, title: newTodolistTitle}
 
-  const action = updateTodolistTitle.fulfilled(params, '', params)
+  const action = changeTodolistTitle.fulfilled(params, '', params)
 
   const endState = todolistsReducer(startState, action)
 

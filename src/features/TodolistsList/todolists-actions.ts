@@ -57,7 +57,7 @@ export const addTodolist = createAsyncThunk(
       }
     }
 )
-export const updateTodolistTitle = createAsyncThunk(
+export const changeTodolistTitle = createAsyncThunk(
     'todolist/updateTodolistTitle',
     async (param: { todolistId: string, title: string }, thunkAPI) => {
       thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))

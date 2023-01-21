@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {memo, useCallback, useEffect} from 'react'
 import {AddItemForm} from '../../../components/AddItemForm/AddItemForm'
 import {EditableSpan} from '../../../components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
@@ -11,26 +11,23 @@ import {TaskDomainType} from "../tasks-reducer";
 import {RequestStatusType} from "../../../app/app-reducer";
 import {useAppDispatch} from "../../../utils/hooks/useAppDispatch";
 import {fetchTasks} from "../tasks-actions";
+import {useActions} from "../../../utils/hooks/useActions";
 
 type PropsType = {
   id: string
   title: string
   tasks: TaskDomainType[]
-  changeFilter: (value: FilterValuesType, todolistId: string) => void
-  addTask: (todolistId: string, title: string) => void
   changeTaskStatus: (todolistId: string, taskId: string, status: TaskStatuses) => void
   changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
-  removeTask: (todolistId: string, taskId: string) => void
-  removeTodolist: (id: string) => void
-  changeTodolistTitle: (id: string, newTitle: string) => void
   filter: FilterValuesType
   entityStatus: RequestStatusType
   demo?: boolean
 }
 
-export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
+export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
 
   const dispatch = useAppDispatch();
+  const {removeTodolist, changeTodolistFilter, changeTodolistTitle, addTask} = useActions()
 
   useEffect(() => {
     if (demo) {
@@ -39,20 +36,26 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     dispatch(fetchTasks(props.id))
   }, [])
 
-  const addTask = useCallback((title: string) => {
-    props.addTask(props.id, title)
-  }, [props.addTask, props.id])
+  const addTaskHandler = useCallback((params: { title: string }) => {
+    addTask({todolistId: props.id, title: params.title})
+  }, [])
 
-  const removeTodolist = () => {
-    props.removeTodolist(props.id)
+  const removeTodolistHandler = () => {
+    removeTodolist({todolistId: props.id})
   }
-  const changeTodolistTitle = useCallback((title: string) => {
-    props.changeTodolistTitle(props.id, title)
-  }, [props.id, props.changeTodolistTitle])
+  const changeTodolistTitleHandler = useCallback((title: string) => {
+    changeTodolistTitle({todolistId: props.id, title})
+  }, [])
 
-  const onAllClickHandler = useCallback(() => props.changeFilter('all', props.id), [props.id, props.changeFilter])
-  const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.id, props.changeFilter])
-  const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.id), [props.id, props.changeFilter])
+  const onAllClickHandler = () => {
+    changeTodolistFilter({id: props.id, filter: 'all'})
+  }
+  const onActiveClickHandler = () => {
+    changeTodolistFilter({id: props.id, filter: 'active'})
+  }
+  const onCompletedClickHandler = () => {
+    changeTodolistFilter({id: props.id, filter: 'completed'})
+  }
 
   let tasksForTodolist = props.tasks
 
@@ -68,14 +71,14 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     <h3>
       <EditableSpan
           value={props.title}
-          onChange={changeTodolistTitle}
+          onChange={changeTodolistTitleHandler}
           isDisabled={isDisabled}
       />
-      <IconButton onClick={removeTodolist} disabled={isDisabled}>
+      <IconButton onClick={removeTodolistHandler} disabled={isDisabled}>
         <Delete/>
       </IconButton>
     </h3>
-    <AddItemForm addItem={addTask} disabled={isDisabled}/>
+    <AddItemForm addItem={addTaskHandler} disabled={isDisabled}/>
     <div>
       {
         tasksForTodolist.map(t => <Task
@@ -83,7 +86,6 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
             task={t}
             entityTaskStatus={t.entityTaskStatus}
             todolistId={props.id}
-            removeTask={props.removeTask}
             changeTaskTitle={props.changeTaskTitle}
             changeTaskStatus={props.changeTaskStatus}
         />)

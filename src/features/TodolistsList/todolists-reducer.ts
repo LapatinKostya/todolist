@@ -1,7 +1,7 @@
 import {TodolistType} from "../../api/todolists-api";
 import {RequestStatusType} from "../../app/app-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {addTodolist, fetchTodolists, removeTodolist, updateTodolistTitle} from "./todolists-actions";
+import {addTodolist, changeTodolistTitle, fetchTodolists, removeTodolist} from "./todolists-actions";
 
 const initialState: TodolistDomainType[] = []
 
@@ -30,7 +30,7 @@ export const slice = createSlice({
         .addCase(addTodolist.fulfilled, (state, action) => {
           state.unshift({...action.payload.todolist, filter: "all", entityStatus: 'idle'})
         })
-        .addCase(updateTodolistTitle.fulfilled, (state, action) => {
+        .addCase(changeTodolistTitle.fulfilled, (state, action) => {
           const index = state.findIndex(tl => tl.id === action.payload.todolistId)
           state[index].title = action.payload.title
         })
