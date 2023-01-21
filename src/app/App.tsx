@@ -13,17 +13,19 @@ import {Login} from "../features/Auth/Login";
 import {useAppSelector} from "../utils/hooks/useAppSelector";
 import {useAppDispatch} from "../utils/hooks/useAppDispatch";
 import {initialiseApp} from "./app-reducer";
-import {selectIsInitialized, selectStatus} from "./selectors";
-import {selectIsLoggedIn} from "../features/Auth/selectors";
+import {CircularProgress} from "@mui/material";
+import {authSelectors} from "../features/Auth";
+import {appSelectors} from "./index";
+
 
 type PropsType = {
   demo?: boolean
 }
 
 function App({demo = false}: PropsType) {
-  const appStatus = useAppSelector(selectStatus)
-  const isInitialized = useAppSelector(selectIsInitialized)
-  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const appStatus = useAppSelector(appSelectors.selectStatus)
+  const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
+  const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
   const dispatch = useAppDispatch()
   const logout = () => {
@@ -36,12 +38,12 @@ function App({demo = false}: PropsType) {
     }
   }, [dispatch])
 
-  // if (!isInitialized) {
-  //   return <div
-  //       style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-  //     <CircularProgress/>
-  //   </div>
-  // }
+  if (!isInitialized) {
+    return <div
+        style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+      <CircularProgress/>
+    </div>
+  }
   return (
       <div className="App">
         <ErrorSnackbar/>

@@ -44,28 +44,6 @@ export const logOut = createAsyncThunk('auth/logOut',
       }
     })
 
-// export const meTC = (): AppThunk => dispatch => {
-//   dispatch(setAppStatusAC({status: 'loading'}))
-//   authAPI.me()
-//       .then((res) => {
-//         if (res.data.resultCode === 0) {
-//           dispatch(setIsLoggedInAC({value: true}))
-//           dispatch(setAppStatusAC({status: 'succeeded'}))
-//
-//         } else {
-//           handleServerAppError(res.data, dispatch)
-//           dispatch(setAppStatusAC({status: 'failed'}))
-//         }
-//       })
-//       .catch((error) => {
-//         handleServerNetworkError(error, dispatch)
-//       })
-//       .finally(() => {
-//             dispatch(setAppIsInitializedAC({isInitialized: true}))
-//           }
-//       )
-// }
-
 const slice = createSlice({
       name: 'auth',
       initialState: {

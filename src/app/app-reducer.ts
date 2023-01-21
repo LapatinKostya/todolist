@@ -19,6 +19,8 @@ export const initialiseApp = createAsyncThunk('app/initialise',
         const err = e as Error | AxiosError<{ error: string }>
         handleServerNetworkError(err, thunkAPI.dispatch)
         return thunkAPI.rejectWithValue({})
+      } finally {
+        thunkAPI.dispatch(setInitialiseApp({isInitialised: true}))
       }
     })
 
@@ -36,17 +38,20 @@ const slice = createSlice({
     setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
       state.status = action.payload.status;
     },
+    setInitialiseApp(state, action: PayloadAction<{ isInitialised: boolean }>) {
+      state.isInitialized = action.payload.isInitialised
+    },
   },
   extraReducers: (builder) => {
-    builder
-        .addCase(initialiseApp.fulfilled, (state) => {
-          state.isInitialized = true
-        })
+    // builder
+    //     .addCase(initialiseApp.fulfilled, (state) => {
+    //       state.isInitialized = true
+    //     })
   }
 })
 
 export const appReducer = slice.reducer
-export const {setAppErrorAC, setAppStatusAC} = slice.actions
+export const {setAppErrorAC, setAppStatusAC, setInitialiseApp} = slice.actions
 
 // types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

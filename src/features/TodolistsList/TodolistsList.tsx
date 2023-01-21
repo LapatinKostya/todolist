@@ -18,7 +18,8 @@ import {Navigate} from "react-router-dom";
 import {RequestStatusType} from "../../app/app-reducer";
 import {useAppSelector} from "../../utils/hooks/useAppSelector";
 import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
-import {selectIsLoggedIn} from "../Auth/selectors";
+import {authSelectors} from "../Auth";
+
 
 type TodolistsListPropsType = {
   appStatus: RequestStatusType
@@ -26,12 +27,12 @@ type TodolistsListPropsType = {
 }
 
 export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo}) => {
+  const dispatch = useAppDispatch();
 
   const todolists = useAppSelector(state => state.todolists)
   const tasks = useAppSelector(state => state.tasks)
-  const isLoggedIn = useAppSelector(selectIsLoggedIn)
-  const dispatch = useAppDispatch();
-
+  const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+  
   useEffect(() => {
     dispatch(fetchTodolists())
   }, [dispatch])
@@ -43,7 +44,6 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo
     dispatch(addTask({todolistId, title}))
   }, [dispatch]);
   const updateTaskStatus = useCallback(function (todolistId: string, taskId: string, status: TaskStatuses) {
-    // dispatch(updateTask(todolistId, taskId, {status: status}))
     dispatch(updateTask({taskId, todolistId, domainModel: {status}}))
   }, [dispatch]);
   const updateTaskTitle = useCallback(function (todolistId: string, taskId: string, newTitle: string) {
@@ -76,7 +76,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({appStatus, demo
         <Grid container spacing={3}>
           {
             todolists.map(tl => {
-              let allTodolistTasks = tasks[tl.id];
+              const allTodolistTasks = tasks[tl.id];
               return (
                   <Grid item key={tl.id}>
                     <Paper style={{padding: '10px'}}>
