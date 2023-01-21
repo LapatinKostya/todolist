@@ -1,6 +1,7 @@
 import {
   changeTodolistEntityStatus,
   changeTodolistFilter,
+  changeTodolistTitle,
   FilterValuesType,
   TodolistDomainType,
   todolistsReducer,
@@ -8,7 +9,8 @@ import {
 import {v1} from 'uuid'
 import {TodolistType} from "../../api/todolists-api";
 import {RequestStatusType} from "../../app/app-reducer";
-import {addTodolist, changeTodolistTitle, fetchTodolists, removeTodolist} from "./todolists-actions";
+import {todolistActions} from './'
+
 
 let todolistId1: string
 let todolistId2: string
@@ -25,7 +27,7 @@ beforeEach(() => {
 
 test('correct todolist should be removed', () => {
   const params = {todolistId: todolistId1}
-  const endState = todolistsReducer(startState, removeTodolist.fulfilled(params, '', params))
+  const endState = todolistsReducer(startState, todolistActions.removeTodolist.fulfilled(params, '', params))
 
   expect(endState.length).toBe(1)
   expect(endState[0].id).toBe(todolistId2)
@@ -40,7 +42,7 @@ test('correct todolist should be added', () => {
   }
 
 
-  const endState = todolistsReducer(startState, addTodolist.fulfilled({todolist}, '', todolist))
+  const endState = todolistsReducer(startState, todolistActions.addTodolist.fulfilled({todolist}, '', todolist))
 
   expect(endState.length).toBe(3)
   expect(endState[0].title).toBe(todolist.title)
@@ -72,7 +74,7 @@ test('correct filter of todolist should be changed', () => {
 test('todolists should be added', () => {
   const payload = {todolists: startState}
 
-  const action = fetchTodolists.fulfilled(payload, '')
+  const action = todolistActions.fetchTodolists.fulfilled(payload, '')
 
   const endState = todolistsReducer([], action)
 

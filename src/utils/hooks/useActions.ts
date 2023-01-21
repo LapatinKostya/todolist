@@ -1,7 +1,7 @@
 import {useAppDispatch} from "./useAppDispatch";
 import {bindActionCreators} from "redux";
-import {taskActions, todolistActions} from "../../features/TodolistsList";
 import {useMemo} from "react";
+import {taskActions, todolistActions} from "../../features/TodolistsList";
 
 const allActions = {
   ...taskActions,
