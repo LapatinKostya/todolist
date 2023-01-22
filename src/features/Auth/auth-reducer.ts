@@ -4,7 +4,7 @@ import {handleServerAppError, handleServerNetworkError} from "../../utils/error-
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {AxiosError} from "axios";
 
-const login = createAsyncThunk<{ isLoggedIn: boolean }, AuthDataType, {
+export const login = createAsyncThunk<{ isLoggedIn: boolean }, AuthDataType, {
   rejectValue: { errors: string[], fieldsErrors?: FieldErrorType[] }
 }>(
     'auth/login',

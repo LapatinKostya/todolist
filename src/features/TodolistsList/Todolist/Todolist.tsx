@@ -88,21 +88,21 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
           <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
                   onClick={onAllClickHandler}
                   color={'inherit'}
-                  disabled={props.entityStatus === 'loading'}
+                  disabled={isDisabled}
           >
             All
           </Button>
           <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
                   onClick={onActiveClickHandler}
                   color={'primary'}
-                  disabled={props.entityStatus === 'loading'}
+                  disabled={isDisabled}
           >
             Active
           </Button>
           <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
                   onClick={onCompletedClickHandler}
                   color={'secondary'}
-                  disabled={props.entityStatus === 'loading'}
+                  disabled={isDisabled}
           >
             Completed
           </Button>
@@ -110,5 +110,4 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
       </div>
     }
 )
-
 
