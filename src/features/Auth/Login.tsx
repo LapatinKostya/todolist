@@ -9,10 +9,10 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
 import {Navigate} from "react-router-dom";
-import {login} from "./auth-reducer";
 import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
 import {useAppSelector} from "../../utils/hooks/useAppSelector";
 import {authSelectors} from "./index";
+import {useActions} from "../../utils/hooks/useActions";
 
 type FormikErrorType = {
   email?: string
@@ -26,8 +26,9 @@ type TFormValues = {
   rememberMe: boolean
 }
 export const Login = () => {
-  const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+  const dispatch = useAppDispatch()
+  const {login} = useActions()
 
   const formik = useFormik({
     initialValues: {

@@ -6,16 +6,13 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {logOut} from "../features/Auth/auth-reducer";
 import {Navigate, Route, Routes} from 'react-router-dom'
-import {TodolistsList} from "../features/TodolistsList/TodolistsList";
-import {Login} from "../features/Auth/Login";
-import {useAppSelector} from "../utils/hooks/useAppSelector";
-import {useAppDispatch} from "../utils/hooks/useAppDispatch";
-import {initialiseApp} from "./app-reducer";
-import {CircularProgress} from "@mui/material";
-import {authSelectors} from "../features/Auth";
-import {appSelectors} from "./index";
+import {TodolistsList} from "../features/TodolistsList/TodolistsList"
+import {useAppSelector} from "../utils/hooks/useAppSelector"
+import {CircularProgress} from "@mui/material"
+import {authSelectors, Login} from "../features/Auth"
+import {appSelectors} from "./index"
+import {useActions} from "../utils/hooks/useActions"
 
 
 type PropsType = {
@@ -27,16 +24,16 @@ function App({demo = false}: PropsType) {
   const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
-  const dispatch = useAppDispatch()
-  const logout = () => {
-    dispatch(logOut())
-  }
+  const {initialiseApp,logOut} = useActions()
 
   useEffect(() => {
     if (!demo) {
-      dispatch(initialiseApp())
+      initialiseApp()
     }
-  }, [dispatch])
+  }, [])
+  const logOutHandler = () => {
+    logOut()
+  }
 
   if (!isInitialized) {
     return <div
@@ -49,7 +46,7 @@ function App({demo = false}: PropsType) {
         <ErrorSnackbar/>
         <AppBar position="static">
           <Toolbar>
-            {isLoggedIn && <Button onClick={logout} color="inherit">Logout</Button>}
+            {isLoggedIn && <Button onClick={logOutHandler} color="inherit">Logout</Button>}
           </Toolbar>
           {appStatus === 'loading' && <LinearProgress/>}
         </AppBar>
