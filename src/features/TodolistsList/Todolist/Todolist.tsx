@@ -86,7 +86,7 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
                 tasksForTodolist.map(t => <Task
                     key={t.id}
                     task={t}
-                    entityTaskStatus={t.entityTaskStatus}
+                    isDisabled={isDisabled}
                     todolistId={props.id}
                 />)
               }
