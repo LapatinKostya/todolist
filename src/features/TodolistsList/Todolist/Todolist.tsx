@@ -42,16 +42,6 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
         changeTodolistTitle({todolistId: props.id, title})
       }
 
-      const onAllClickHandler = () => {
-        changeTodolistFilter({id: props.id, filter: 'all'})
-      }
-      const onActiveClickHandler = () => {
-        changeTodolistFilter({id: props.id, filter: 'active'})
-      }
-      const onCompletedClickHandler = () => {
-        changeTodolistFilter({id: props.id, filter: 'completed'})
-      }
-
       let tasksForTodolist = props.tasks
 
       if (props.filter === 'active') {
@@ -59,55 +49,55 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
       }
       if (props.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
+
       }
       const isDisabled = props.entityStatus === 'loading'
 
-      return <div>
-        <h3>
-          <EditableSpan
-              value={props.title}
-              onChange={changeTodolistTitleHandler}
-              isDisabled={isDisabled}
-          />
-          <IconButton onClick={removeTodolistHandler} disabled={isDisabled}>
-            <Delete/>
-          </IconButton>
-        </h3>
-        <AddItemForm addItem={addTaskHandler} disabled={isDisabled}/>
-        <div>
-          {
-            tasksForTodolist.map(t => <Task
-                key={t.id}
-                task={t}
-                entityTaskStatus={t.entityTaskStatus}
-                todolistId={props.id}
-            />)
-          }
-        </div>
-        <div style={{paddingTop: '10px'}}>
-          <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
-                  onClick={onAllClickHandler}
-                  color={'inherit'}
-                  disabled={isDisabled}
-          >
-            All
-          </Button>
-          <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
-                  onClick={onActiveClickHandler}
-                  color={'primary'}
-                  disabled={isDisabled}
-          >
-            Active
-          </Button>
-          <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
-                  onClick={onCompletedClickHandler}
-                  color={'secondary'}
-                  disabled={isDisabled}
-          >
-            Completed
-          </Button>
-        </div>
-      </div>
+      const renderFilterButton = (
+          color: "inherit" | "primary" | "secondary",
+          buttonValue: FilterValuesType,
+          text: string) => {
+        return (
+            <Button variant={props.filter === buttonValue ? 'outlined' : 'text'}
+                    onClick={() => changeTodolistFilter({id: props.id, filter: buttonValue})}
+                    color={color}
+                    disabled={isDisabled}
+            >
+              {text}
+            </Button>
+        )
+      }
+
+      return (
+          <div>
+            <h3>
+              <EditableSpan
+                  value={props.title}
+                  onChange={changeTodolistTitleHandler}
+                  isDisabled={isDisabled}
+              />
+              <IconButton onClick={removeTodolistHandler} disabled={isDisabled}>
+                <Delete/>
+              </IconButton>
+            </h3>
+            <AddItemForm addItem={addTaskHandler} disabled={isDisabled}/>
+            <div>
+              {
+                tasksForTodolist.map(t => <Task
+                    key={t.id}
+                    task={t}
+                    entityTaskStatus={t.entityTaskStatus}
+                    todolistId={props.id}
+                />)
+              }
+            </div>
+            <div style={{paddingTop: '10px'}}>
+              {renderFilterButton('inherit', "all", 'All')}
+              {renderFilterButton('primary', "active", 'Active')}
+              {renderFilterButton('secondary', "completed", 'Completed')}
+            </div>
+          </div>
+      )
     }
 )
 
