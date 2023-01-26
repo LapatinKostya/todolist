@@ -13,6 +13,7 @@ type TaskPropsType = {
 
 }
 export const Task = React.memo(({task, todolistId, isDisabled}: TaskPropsType) => {
+
   const {removeTask, updateTask} = useActions()
 
   const removeTaskHandler = useCallback(() => removeTask({
@@ -30,7 +31,7 @@ export const Task = React.memo(({task, todolistId, isDisabled}: TaskPropsType) =
   }, [task.id, todolistId])
 
   return (
-      <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
+      <div key={task.id}>
         <Checkbox
             checked={task.status === TaskStatuses.Completed}
             color="primary"

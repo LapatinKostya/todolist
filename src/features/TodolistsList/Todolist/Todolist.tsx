@@ -10,6 +10,7 @@ import {TaskStatuses} from "../../../api/todolists-api";
 import {TaskDomainType} from "../tasks-reducer";
 import {RequestStatusType} from "../../../app/app-reducer";
 import {useActions} from "../../../utils/hooks/useActions";
+import Paper from "@mui/material/Paper";
 
 type PropsType = {
   id: string
@@ -69,34 +70,36 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
       }
 
       return (
-          <div>
-            <h3>
-              <EditableSpan
-                  value={props.title}
-                  onChange={changeTodolistTitleHandler}
-                  isDisabled={isDisabled}
-              />
+          <Paper style={{padding: '10px', width: '280px'}}>
+            <div style={{display: 'flex', justifyContent: "space-between", alignItems: 'center'}}>
+              <h3>
+                <EditableSpan
+                    value={props.title}
+                    onChange={changeTodolistTitleHandler}
+                    isDisabled={isDisabled}
+                />
+              </h3>
               <IconButton onClick={removeTodolistHandler} disabled={isDisabled}>
                 <Delete/>
               </IconButton>
-            </h3>
-            <AddItemForm addItem={addTaskHandler} disabled={isDisabled}/>
-            <div>
-              {
-                tasksForTodolist.map(t => <Task
-                    key={t.id}
-                    task={t}
-                    isDisabled={t.entityTaskStatus === 'loading'}
-                    todolistId={props.id}
-                />)
-              }
             </div>
+
+            <AddItemForm addItem={addTaskHandler} disabled={isDisabled}/>
+            {
+              tasksForTodolist.map(t => <Task
+                  key={t.id}
+                  task={t}
+                  isDisabled={t.entityTaskStatus === 'loading'}
+                  todolistId={props.id}
+              />)
+            }
+            { !tasksForTodolist.length && <span>Create first task</span>}
             <div style={{paddingTop: '10px'}}>
               {renderFilterButton('inherit', "all", 'All')}
               {renderFilterButton('primary', "active", 'Active')}
               {renderFilterButton('secondary', "completed", 'Completed')}
             </div>
-          </div>
+          </Paper>
       )
     }
 )

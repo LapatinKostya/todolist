@@ -1,7 +1,6 @@
 import {useEffect} from "react"
 import Grid from "@mui/material/Grid"
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm"
-import Paper from "@mui/material/Paper"
 import {Todolist} from "./Todolist/Todolist"
 import {Navigate} from "react-router-dom"
 import {RequestStatusType} from "../../app/app-reducer"
@@ -38,13 +37,12 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
         <Grid container style={{padding: '20px'}}>
           <AddItemForm addItem={addTodolist} disabled={appStatus === 'loading'}/>
         </Grid>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
           {
             todolists.map(tl => {
               const allTodolistTasks = tasks[tl.id];
               return (
                   <Grid item key={tl.id}>
-                    <Paper style={{padding: '10px'}}>
                       <Todolist
                           id={tl.id}
                           title={tl.title}
@@ -53,7 +51,6 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
                           entityStatus={tl.entityStatus}
                           demo={demo}
                       />
-                    </Paper>
                   </Grid>
               )
             })}
