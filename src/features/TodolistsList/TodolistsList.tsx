@@ -25,8 +25,6 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
   const tasks = useAppSelector(state => state.tasks)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
-  console.log('lists')
-
   useEffect(() => {
     fetchTodolists()
   }, [])

@@ -15,32 +15,34 @@ type TaskPropsType = {
 export const Task = React.memo(({task, todolistId, isDisabled}: TaskPropsType) => {
   const {removeTask, updateTask} = useActions()
 
-  const deleteTaskHandler = useCallback(() => removeTask({
+  const removeTaskHandler = useCallback(() => removeTask({
     todolistId: todolistId,
     taskId: task.id
-  }), [task.id, todolistId]);
+  }), [task.id, todolistId])
 
   const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const newIsDoneValue = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-    updateTask({todolistId: todolistId, taskId: task.id, domainModel: {status: newIsDoneValue}})
-  }, [task.id, todolistId]);
+    updateTask({todolistId, taskId: task.id, domainModel: {status: newIsDoneValue}})
+  }, [task.id, todolistId])
 
   const changeTaskTitleHandler = useCallback((newTitle: string) => {
-    updateTask({todolistId: todolistId, taskId: task.id, domainModel: {title: newTitle}})
-  }, [task.id, todolistId]);
+    updateTask({todolistId, taskId: task.id, domainModel: {title: newTitle}})
+  }, [task.id, todolistId])
 
 
-  return <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
-    <Checkbox
-        checked={task.status === TaskStatuses.Completed}
-        color="primary"
-        onChange={changeTaskStatusHandler}
-        disabled={isDisabled}
-    />
+  return (
+      <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
+        <Checkbox
+            checked={task.status === TaskStatuses.Completed}
+            color="primary"
+            onChange={changeTaskStatusHandler}
+            disabled={isDisabled}
+        />
 
-    <EditableSpan value={task.title} onChange={changeTaskTitleHandler} isDisabled={isDisabled}/>
-    <IconButton onClick={deleteTaskHandler} disabled={isDisabled}>
-      <Delete/>
-    </IconButton>
-  </div>
+        <EditableSpan value={task.title} onChange={changeTaskTitleHandler} isDisabled={isDisabled}/>
+        <IconButton onClick={removeTaskHandler} disabled={isDisabled}>
+          <Delete/>
+        </IconButton>
+      </div>
+  )
 })
