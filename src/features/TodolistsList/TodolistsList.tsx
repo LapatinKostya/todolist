@@ -1,13 +1,13 @@
-import {useEffect} from "react";
-import Grid from "@mui/material/Grid";
-import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
-import Paper from "@mui/material/Paper";
-import {Todolist} from "./Todolist/Todolist";
-import {Navigate} from "react-router-dom";
-import {RequestStatusType} from "../../app/app-reducer";
-import {useAppSelector} from "../../utils/hooks/useAppSelector";
-import {authSelectors} from "../Auth";
-import {useActions} from "../../utils/hooks/useActions";
+import {useEffect} from "react"
+import Grid from "@mui/material/Grid"
+import {AddItemForm} from "../../components/AddItemForm/AddItemForm"
+import Paper from "@mui/material/Paper"
+import {Todolist} from "./Todolist/Todolist"
+import {Navigate} from "react-router-dom"
+import {RequestStatusType} from "../../app/app-reducer"
+import {useAppSelector} from "../../utils/hooks/useAppSelector"
+import {authSelectors} from "../Auth"
+import {useActions} from "../../utils/hooks/useActions"
 
 
 type TodolistsListPropsType = {

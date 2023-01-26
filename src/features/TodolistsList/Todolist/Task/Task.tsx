@@ -29,7 +29,6 @@ export const Task = React.memo(({task, todolistId, isDisabled}: TaskPropsType) =
     updateTask({todolistId, taskId: task.id, domainModel: {title: newTitle}})
   }, [task.id, todolistId])
 
-
   return (
       <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
         <Checkbox
