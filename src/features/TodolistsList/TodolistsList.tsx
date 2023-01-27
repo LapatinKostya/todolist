@@ -37,7 +37,7 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
         <Grid container style={{padding: '20px'}}>
           <AddItemForm addItem={addTodolist} disabled={appStatus === 'loading'}/>
         </Grid>
-        <Grid container spacing={3} sx={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
+        <Grid container spacing={3} sx={{flexWrap: 'nowrap', overflowX: 'scroll', height: '100%'}}>
           {
             todolists.map(tl => {
               const allTodolistTasks = tasks[tl.id];

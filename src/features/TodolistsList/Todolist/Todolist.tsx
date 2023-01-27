@@ -94,7 +94,7 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
               />)
             }
             { !tasksForTodolist.length && <span>Create first task</span>}
-            <div style={{paddingTop: '10px'}}>
+            <div style={{paddingTop: '10px', display: 'flex', justifyContent: 'space-between'}}>
               {renderFilterButton('inherit', "all", 'All')}
               {renderFilterButton('primary', "active", 'Active')}
               {renderFilterButton('secondary', "completed", 'Completed')}

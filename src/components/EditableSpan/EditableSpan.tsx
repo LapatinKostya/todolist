@@ -30,6 +30,7 @@ export const EditableSpan = React.memo(function (props: EditableSpanPropsType) {
 
     return editMode
         ? <TextField
+            variant="standard"
             value={title}
             onChange={changeTitle}
             onBlur={activateViewMode}
