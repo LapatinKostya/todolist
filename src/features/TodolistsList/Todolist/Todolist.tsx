@@ -85,15 +85,17 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
             </div>
 
             <AddItemForm addItem={addTaskHandler} disabled={isDisabled}/>
-            {
-              tasksForTodolist.map(t => <Task
-                  key={t.id}
-                  task={t}
-                  isDisabled={t.entityTaskStatus === 'loading'}
-                  todolistId={props.id}
-              />)
+            {tasksForTodolist.length ? tasksForTodolist.map(t => <Task
+                key={t.id}
+                task={t}
+                isDisabled={t.entityTaskStatus === 'loading'}
+                todolistId={props.id}
+            />) : <div
+                style={{display: 'flex', alignItems: 'center', justifyContent: "center", height: '40px'}}>
+              <span>No tasks</span>
+            </div>
             }
-            { !tasksForTodolist.length && <span>Create first task</span>}
+
             <div style={{paddingTop: '10px', display: 'flex', justifyContent: 'space-between'}}>
               {renderFilterButton('inherit', "all", 'All')}
               {renderFilterButton('primary', "active", 'Active')}

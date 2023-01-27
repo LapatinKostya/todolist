@@ -48,12 +48,12 @@ const addTodolist = createAsyncThunk(
           return {todolist: res.data.data.item}
         } else {
           handleServerAppError(res.data, thunkAPI.dispatch)
-          return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
+          return thunkAPI.rejectWithValue(null)
         }
       } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
         handleServerNetworkError(err, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue({errors: [err.message], fieldsErrors: undefined})
+        return thunkAPI.rejectWithValue(null)
       }
     }
 )
