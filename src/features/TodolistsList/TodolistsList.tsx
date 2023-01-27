@@ -15,14 +15,16 @@ type TodolistsListPropsType = {
 }
 
 export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
+  const todolists = useAppSelector(state => state.todolists)
+  const tasks = useAppSelector(state => state.tasks)
+  const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+  
   const {
     addTodolist,
     fetchTodolists,
   } = useActions()
 
-  const todolists = useAppSelector(state => state.todolists)
-  const tasks = useAppSelector(state => state.tasks)
-  const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+
 
   useEffect(() => {
     fetchTodolists()

@@ -31,15 +31,17 @@ export const Task = React.memo(({task, todolistId, isDisabled}: TaskPropsType) =
   }, [task.id, todolistId])
 
   return (
-      <div key={task.id}>
-        <Checkbox
-            checked={task.status === TaskStatuses.Completed}
-            color="primary"
-            onChange={changeTaskStatusHandler}
-            disabled={isDisabled}
-        />
+      <div key={task.id} className={`task__item ${task.status === TaskStatuses.Completed && 'task__item_checked'}`}>
+        <div>
+          <Checkbox
+              checked={task.status === TaskStatuses.Completed}
+              color="primary"
+              onChange={changeTaskStatusHandler}
+              disabled={isDisabled}
+          />
 
-        <EditableSpan value={task.title} onChange={changeTaskTitleHandler} isDisabled={isDisabled}/>
+          <EditableSpan value={task.title} onChange={changeTaskTitleHandler} isDisabled={isDisabled}/>
+        </div>
         <IconButton onClick={removeTaskHandler} disabled={isDisabled}>
           <Delete/>
         </IconButton>

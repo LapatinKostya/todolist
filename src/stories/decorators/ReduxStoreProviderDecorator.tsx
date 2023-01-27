@@ -6,12 +6,12 @@ import {v1} from 'uuid'
 
 import {TaskPriorities, TaskStatuses} from '../../api/todolists-api'
 import {appReducer} from '../../app/app-reducer'
-import {tasksReducer} from "../../features/TodolistsList/tasks-reducer";
-import {todolistsReducer} from "../../features/TodolistsList/todolists-reducer";
-import {RootState, TRootReducer} from "../../app/store";
-import {authReducer} from "../../features/Auth/auth-reducer";
-import {configureStore} from "@reduxjs/toolkit";
-import thunkMiddleware from "redux-thunk";
+import {tasksReducer} from "../../features/TodolistsList/tasks-reducer"
+import {todolistsReducer} from "../../features/TodolistsList/todolists-reducer"
+import {RootState, TRootReducer} from "../../app/store"
+import {authReducer} from "../../features/Auth/auth-reducer"
+import {configureStore} from "@reduxjs/toolkit"
+import thunkMiddleware from "redux-thunk"
 
 const rootReducer: TRootReducer = combineReducers({
   tasks: tasksReducer,
@@ -55,7 +55,7 @@ const initialGlobalState: RootState = {
   auth: {
     isLoggedIn: true
   }
-};
+}
 
 export const storyBookStore = configureStore({
   reducer: rootReducer,

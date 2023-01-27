@@ -49,7 +49,6 @@ test('correct task should be deleted from correct array', () => {
   expect(endState["todolistId2"].length).toBe(2)
   expect(endState["todolistId2"].every(t => t.id !== "2")).toBeTruthy()
 })
-
 test('correct task should be added to correct array', () => {
   const task = {
     todoListId: "todolistId2",
@@ -108,7 +107,6 @@ test('property with todolistId should be deleted', () => {
   expect(keys.length).toBe(1);
   expect(endState["todolistId2"]).not.toBeDefined();
 });
-
 test('empty arrays should be added when we set todolists', () => {
   const action = todolistActions.fetchTodolists.fulfilled({
     todolists: [
