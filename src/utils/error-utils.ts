@@ -1,16 +1,6 @@
 import {ResponseType} from "../api/types";
 import {appActions} from "../features/CommonActions/App";
 
-
-// export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
-//   dispatch(appActions.setAppErrorAC({error: data.messages.length ? data.messages[0] : 'Some error occurred'}))
-//   dispatch(appActions.setAppStatusAC({status: 'failed'}))
-// }
-//
-// export const handleServerNetworkError = (error: { message: string }, dispatch: ErrorUtilsDispatchType) => {
-//   dispatch(appActions.setAppErrorAC({error: error.message ? error.message : 'Some error occurred'}))
-//   dispatch(appActions.setAppStatusAC({status: 'failed'}))
-// }
 export const handleAsyncServerAppError = <D>(data: ResponseType<D>,
                                              thunkAPI: ThunkAPIType,) => {
 
@@ -31,8 +21,3 @@ type ThunkAPIType = {
   dispatch: (action: any) => any
   rejectWithValue: Function
 }
-
-// type ErrorUtilsDispatchType = Dispatch<SetAppErrorAT | SetAppStatusAT>
-
-// export type SetAppErrorAT = ReturnType<typeof setAppErrorAC>
-// export type SetAppStatusAT = ReturnType<typeof setAppStatusAC>
