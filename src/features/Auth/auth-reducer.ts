@@ -49,7 +49,7 @@ export const asyncActions = {
   logOut
 }
 
-const slice = createSlice({
+export const slice = createSlice({
       name: 'auth',
       initialState: {
         isLoggedIn: false,
@@ -70,4 +70,3 @@ const slice = createSlice({
     }
 )
 
-export const authReducer = slice.reducer

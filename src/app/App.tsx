@@ -7,24 +7,24 @@ import Container from '@mui/material/Container'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Navigate, Route, Routes} from 'react-router-dom'
-import {TodolistsList} from "../features/TodolistsList/TodolistsList"
 import {useAppSelector} from "../utils/hooks/useAppSelector"
 import {CircularProgress} from "@mui/material"
 import {authSelectors, Login} from "../features/Auth"
 import {appSelectors} from "./index"
 import {useActions} from "../utils/hooks/useActions"
+import {TodolistsList} from "../features/TodolistsList";
 
 
 type PropsType = {
   demo?: boolean
 }
 
-function App({demo = false}: PropsType) {
+const App = ({demo = false}: PropsType) => {
   const appStatus = useAppSelector(appSelectors.selectStatus)
   const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
-  const {initialiseApp,logOut} = useActions()
+  const {initialiseApp, logOut} = useActions()
 
   useEffect(() => {
     if (!demo) {

@@ -112,7 +112,7 @@ export const asyncActions = {
   updateTask
 }
 
-const slice = createSlice({
+export const slice = createSlice({
       name: 'tasks',
       initialState: {} as TasksStateType,
       reducers: {
@@ -161,8 +161,6 @@ const slice = createSlice({
       }
     }
 )
-
-export const tasksReducer = slice.reducer
 
 export const {changeTaskEntityStatusAC} = slice.actions
 

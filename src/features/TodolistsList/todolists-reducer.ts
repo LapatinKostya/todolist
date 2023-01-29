@@ -123,8 +123,6 @@ export const slice = createSlice({
   },
 })
 
-export const todolistsReducer = slice.reducer
-
 // for tests
 export const {
   changeTodolistFilter,
@@ -137,5 +135,4 @@ export type FilterValuesType = 'all' | 'active' | 'completed'
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType
   entityStatus: RequestStatusType
-
 }

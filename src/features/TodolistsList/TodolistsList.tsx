@@ -18,12 +18,11 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
   const todolists = useAppSelector(state => state.todolists)
   const tasks = useAppSelector(state => state.tasks)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
-  
+
   const {
     addTodolist,
     fetchTodolists,
   } = useActions()
-
 
 
   useEffect(() => {
@@ -45,14 +44,14 @@ export const TodolistsList = ({appStatus, demo}: TodolistsListPropsType) => {
               const allTodolistTasks = tasks[tl.id];
               return (
                   <Grid item key={tl.id}>
-                      <Todolist
-                          id={tl.id}
-                          title={tl.title}
-                          tasks={allTodolistTasks}
-                          filter={tl.filter}
-                          entityStatus={tl.entityStatus}
-                          demo={demo}
-                      />
+                    <Todolist
+                        id={tl.id}
+                        title={tl.title}
+                        tasks={allTodolistTasks}
+                        filter={tl.filter}
+                        entityStatus={tl.entityStatus}
+                        demo={demo}
+                    />
                   </Grid>
               )
             })}

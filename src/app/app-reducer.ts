@@ -24,7 +24,7 @@ export const initialiseApp = createAsyncThunk('app/initialise',
       }
     })
 
-const slice = createSlice({
+export const slice = createSlice({
   name: 'app',
   initialState: {
     status: 'idle' as RequestStatusType,
@@ -53,8 +53,6 @@ const slice = createSlice({
 export const asyncActions = {
   initialiseApp
 }
-
-export const appReducer = slice.reducer
 export const {setAppErrorAC, setAppStatusAC, setInitialiseApp} = slice.actions
 
 // types
