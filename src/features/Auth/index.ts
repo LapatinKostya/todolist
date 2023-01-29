@@ -3,7 +3,8 @@ import * as authSelectors from './selectors'
 import {asyncActions, slice} from './auth-reducer'
 
 const authActions = {
-  ...asyncActions
+  ...asyncActions,
+  ...slice.actions
 }
 const authReducer = slice.reducer
 

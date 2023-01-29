@@ -1,28 +1,16 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {authAPI} from "../../api/todolists-api"
-import {handleServerNetworkError} from "../../utils/error-utils"
-import {AxiosError} from "axios"
+import {authActions} from "../Auth";
+import {appActions} from "../CommonActions/App";
 
-export const initialiseApp = createAsyncThunk('application/initialise',
-    async (param, thunkAPI) => {
-      thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
-      try {
-        const res = await authAPI.me()
-        if (res.data.resultCode === 0) {
-          thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-          return
-        } else {
-          thunkAPI.dispatch(setAppStatusAC({status: 'failed'}))
-          return thunkAPI.rejectWithValue({})
-        }
-      } catch (e) {
-        const err = e as Error | AxiosError<{ error: string }>
-        handleServerNetworkError(err, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue({})
-      } finally {
-        thunkAPI.dispatch(setInitialiseApp({isInitialised: true}))
-      }
-    })
+const initializeApp = createAsyncThunk('application/initializeApp', async (param, {dispatch}) => {
+  const res = await authAPI.me()
+  if (res.data.resultCode === 0) {
+    dispatch(authActions.setIsLoggedIn({value: true}))
+  } else {
+
+  }
+})
 
 export const slice = createSlice({
   name: 'app',
@@ -32,10 +20,10 @@ export const slice = createSlice({
     isInitialized: false,
   },
   reducers: {
-    setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
+    setAppError(state, action: PayloadAction<{ error: string | null }>) {
       state.error = action.payload.error;
     },
-    setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
+    setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
       state.status = action.payload.status;
     },
     setInitialiseApp(state, action: PayloadAction<{ isInitialised: boolean }>) {
@@ -44,16 +32,22 @@ export const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-        .addCase(initialiseApp.fulfilled, (state) => {
+        .addCase(initializeApp.fulfilled, (state) => {
           state.isInitialized = true
+        })
+        .addCase(appActions.setAppStatus, (state, action) => {
+          state.status = action.payload.status
+        })
+        .addCase(appActions.setAppError, (state, action) => {
+          state.error = action.payload.error
         })
   }
 })
 
 export const asyncActions = {
-  initialiseApp
+  initialiseApp: initializeApp
 }
-export const {setAppErrorAC, setAppStatusAC, setInitialiseApp} = slice.actions
+export const {setInitialiseApp} = slice.actions
 
 // types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

@@ -1,5 +1,6 @@
-import {RequestStatusType, setAppErrorAC, setAppStatusAC} from './application-reducer'
+import {RequestStatusType} from './application-reducer'
 import {appReducer} from "./index";
+import {appActions} from "../CommonActions/App";
 
 type startStateType = {
   status: RequestStatusType
@@ -17,10 +18,10 @@ beforeEach(() => {
   }
 });
 test('Correct error message should be set', () => {
-  const endState = appReducer(startState, setAppErrorAC({error: 'some error'}))
+  const endState = appReducer(startState, appActions.setAppError({error: 'some error'}))
   expect(endState.error).toBe('some error')
 })
 test('Correct status should be set', () => {
-  const endState = appReducer(startState, setAppStatusAC({status: 'succeeded'}))
+  const endState = appReducer(startState, appActions.setAppStatus({status: 'succeeded'}))
   expect(endState.status).toBe('succeeded')
 })
