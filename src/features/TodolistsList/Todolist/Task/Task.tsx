@@ -3,9 +3,9 @@ import {EditableSpan} from '../../../../components/EditableSpan/EditableSpan'
 import {Delete} from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
-import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
-import {useActions} from "../../../../utils/hooks/useActions";
 import {taskActions} from "../../index";
+import {useActions} from "../../../../utils/redux-utils";
+import {TaskStatuses, TaskType} from "../../../../api/types";
 
 type TaskPropsType = {
   task: TaskType

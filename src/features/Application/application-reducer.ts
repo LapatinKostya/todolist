@@ -3,7 +3,7 @@ import {authAPI} from "../../api/todolists-api"
 import {handleServerNetworkError} from "../../utils/error-utils"
 import {AxiosError} from "axios"
 
-export const initialiseApp = createAsyncThunk('app/initialise',
+export const initialiseApp = createAsyncThunk('application/initialise',
     async (param, thunkAPI) => {
       thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
       try {

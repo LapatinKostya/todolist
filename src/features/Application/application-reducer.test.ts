@@ -1,4 +1,4 @@
-import {RequestStatusType, setAppErrorAC, setAppStatusAC} from './app-reducer'
+import {RequestStatusType, setAppErrorAC, setAppStatusAC} from './application-reducer'
 import {appReducer} from "./index";
 
 type startStateType = {

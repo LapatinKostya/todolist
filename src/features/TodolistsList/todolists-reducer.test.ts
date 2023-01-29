@@ -6,9 +6,9 @@ import {
   TodolistDomainType,
 } from './todolists-reducer'
 import {v1} from 'uuid'
-import {TodolistType} from "../../api/todolists-api";
-import {RequestStatusType} from "../Application/app-reducer";
+import {RequestStatusType} from "../Application/application-reducer";
 import {todolistActions, todolistsReducer} from './'
+import {TodolistType} from "../../api/types";
 
 
 let todolistId1: string

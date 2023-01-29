@@ -6,12 +6,12 @@ import Button from '@mui/material/Button'
 import {Delete} from '@mui/icons-material'
 import {Task} from './Task/Task'
 import {FilterValuesType} from "../todolists-reducer";
-import {TaskStatuses} from "../../../api/todolists-api";
 import {TaskDomainType} from "../tasks-reducer";
-import {RequestStatusType} from "../../Application/app-reducer";
-import {useActions} from "../../../utils/hooks/useActions";
+import {RequestStatusType} from "../../Application/application-reducer";
 import Paper from "@mui/material/Paper";
 import {taskActions, todolistActions} from "../index";
+import {useActions} from "../../../utils/redux-utils";
+import {TaskStatuses} from "../../../api/types";
 
 type PropsType = {
   id: string

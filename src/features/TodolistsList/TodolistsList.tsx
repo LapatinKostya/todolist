@@ -3,11 +3,10 @@ import Grid from "@mui/material/Grid"
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm"
 import {Todolist} from "./Todolist/Todolist"
 import {Navigate} from "react-router-dom"
-import {RequestStatusType} from "../Application/app-reducer"
-import {useAppSelector} from "../../utils/hooks/useAppSelector"
+import {RequestStatusType} from "../Application/application-reducer"
 import {authSelectors} from "../Auth"
-import {useActions} from "../../utils/hooks/useActions"
 import {todolistActions} from "./index";
+import {useActions, useAppSelector} from "../../utils/redux-utils";
 
 
 type TodolistsListPropsType = {

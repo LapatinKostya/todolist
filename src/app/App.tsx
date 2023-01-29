@@ -7,13 +7,11 @@ import Container from '@mui/material/Container'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Navigate, Route, Routes} from 'react-router-dom'
-import {useAppSelector} from "../utils/hooks/useAppSelector"
 import {CircularProgress} from "@mui/material"
 import {authActions, authSelectors, Login} from "../features/Auth"
-import {useActions} from "../utils/hooks/useActions"
 import {TodolistsList} from "../features/TodolistsList"
 import {appActions, appSelectors} from "../features/Application";
-
+import {useActions, useAppSelector} from "../utils/redux-utils";
 
 type PropsType = {
   demo?: boolean

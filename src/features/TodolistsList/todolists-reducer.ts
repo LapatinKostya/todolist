@@ -1,10 +1,11 @@
-import {todolistsAPI, TodolistType} from "../../api/todolists-api";
-import {RequestStatusType} from "../Application/app-reducer";
+import {todolistsAPI} from "../../api/todolists-api";
+import {RequestStatusType} from "../Application/application-reducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {handleAsyncServerNetworkError, handleServerAppError} from "../../utils/error-utils";
 import {AxiosError} from "axios";
-import {ThunkError} from "../../app/store";
 import {appActions} from "../Application";
+import {ThunkError} from "../../utils/types";
+import {TodolistType} from "../../api/types";
 
 const fetchTodolists = createAsyncThunk<{ todolists: TodolistType[] }, undefined, ThunkError>(
     'todolist/fetchTodolists',

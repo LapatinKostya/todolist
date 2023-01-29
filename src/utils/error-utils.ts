@@ -1,6 +1,6 @@
-import {setAppErrorAC, setAppStatusAC,} from '../features/Application/app-reducer'
+import {setAppErrorAC, setAppStatusAC,} from '../features/Application/application-reducer'
 import {Dispatch} from 'redux'
-import {ResponseType} from "../api/todolists-api"
+import {ResponseType} from "../api/types";
 
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
   dispatch(setAppErrorAC({error: data.messages.length ? data.messages[0] : 'Some error occurred'}))
