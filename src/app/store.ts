@@ -2,15 +2,15 @@ import {combineReducers} from 'redux';
 import thunkMiddleware from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
 import {FieldErrorType} from "../api/todolists-api";
-import {appReducer} from "./"
 import {authReducer} from "../features/Auth"
 import {tasksReducer, todolistsReducer} from "../features/TodolistsList"
+import {appReducer} from "../features/Application";
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todolistsReducer,
   app: appReducer,
-  auth: authReducer
+  auth: authReducer,
 })
 export const store = configureStore({
   reducer: rootReducer,

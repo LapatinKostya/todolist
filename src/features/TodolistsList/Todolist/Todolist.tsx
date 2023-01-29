@@ -8,9 +8,10 @@ import {Task} from './Task/Task'
 import {FilterValuesType} from "../todolists-reducer";
 import {TaskStatuses} from "../../../api/todolists-api";
 import {TaskDomainType} from "../tasks-reducer";
-import {RequestStatusType} from "../../../app/app-reducer";
+import {RequestStatusType} from "../../Application/app-reducer";
 import {useActions} from "../../../utils/hooks/useActions";
 import Paper from "@mui/material/Paper";
+import {taskActions, todolistActions} from "../index";
 
 type PropsType = {
   id: string
@@ -23,7 +24,8 @@ type PropsType = {
 
 export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
 
-      const {removeTodolist, changeTodolistFilter, changeTodolistTitle, addTask, fetchTasks} = useActions()
+      const {removeTodolist, changeTodolistFilter, changeTodolistTitle} = useActions(todolistActions)
+      const {addTask, fetchTasks} = useActions(taskActions)
 
       useEffect(() => {
         if (demo) {

@@ -1,21 +1,11 @@
 import {useAppDispatch} from "./useAppDispatch";
-import {bindActionCreators} from "redux";
+import {ActionCreatorsMapObject, bindActionCreators} from "redux";
 import {useMemo} from "react";
-import {taskActions, todolistActions} from "../../features/TodolistsList";
-import {appActions} from "../../app";
-import {authActions} from "../../features/Auth";
 
-const allActions = {
-  ...taskActions,
-  ...todolistActions,
-  ...appActions,
-  ...authActions
-}
-
-export const useActions = () => {
+export function useActions<T extends ActionCreatorsMapObject<any>>(action: T) {
   const dispatch = useAppDispatch()
 
   return useMemo(() => {
-    return bindActionCreators(allActions, dispatch)
+    return bindActionCreators(action, dispatch)
   }, [dispatch])
 }

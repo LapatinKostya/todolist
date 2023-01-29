@@ -7,7 +7,7 @@ import {RootState, TRootReducer} from "../../app/store"
 import {configureStore} from "@reduxjs/toolkit"
 import thunkMiddleware from "redux-thunk"
 import {tasksReducer, todolistsReducer} from "../../features/TodolistsList";
-import {appReducer} from "../../app";
+import {appReducer} from "../../features/Application";
 import {authReducer} from "../../features/Auth";
 
 const rootReducer: TRootReducer = combineReducers({

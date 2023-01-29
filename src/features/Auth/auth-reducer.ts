@@ -1,8 +1,8 @@
-import {initialiseApp, setAppStatusAC} from '../../app/app-reducer'
-import {authAPI, AuthDataType, FieldErrorType} from "../../api/todolists-api";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {AxiosError} from "axios";
+import {initialiseApp, setAppStatusAC} from '../Application/app-reducer'
+import {authAPI, AuthDataType, FieldErrorType} from "../../api/todolists-api"
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils"
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import {AxiosError} from "axios"
 
 export const login = createAsyncThunk<{ isLoggedIn: boolean }, AuthDataType, {
   rejectValue: { errors: string[], fieldsErrors?: FieldErrorType[] }

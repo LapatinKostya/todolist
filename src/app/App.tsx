@@ -9,10 +9,10 @@ import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {useAppSelector} from "../utils/hooks/useAppSelector"
 import {CircularProgress} from "@mui/material"
-import {authSelectors, Login} from "../features/Auth"
-import {appSelectors} from "./index"
+import {authActions, authSelectors, Login} from "../features/Auth"
 import {useActions} from "../utils/hooks/useActions"
-import {TodolistsList} from "../features/TodolistsList";
+import {TodolistsList} from "../features/TodolistsList"
+import {appActions, appSelectors} from "../features/Application";
 
 
 type PropsType = {
@@ -24,7 +24,8 @@ const App = ({demo = false}: PropsType) => {
   const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
-  const {initialiseApp, logOut} = useActions()
+  const {initialiseApp} = useActions(appActions)
+  const {logOut} = useActions(authActions)
 
   useEffect(() => {
     if (!demo) {
@@ -41,6 +42,7 @@ const App = ({demo = false}: PropsType) => {
       <CircularProgress/>
     </div>
   }
+
   return (
       <div className="App">
         <ErrorSnackbar/>

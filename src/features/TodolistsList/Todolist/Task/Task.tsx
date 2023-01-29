@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
 import {useActions} from "../../../../utils/hooks/useActions";
+import {taskActions} from "../../index";
 
 type TaskPropsType = {
   task: TaskType
@@ -14,7 +15,7 @@ type TaskPropsType = {
 }
 export const Task = React.memo(({task, todolistId, isDisabled}: TaskPropsType) => {
 
-  const {removeTask, updateTask} = useActions()
+  const {removeTask, updateTask} = useActions(taskActions)
 
   const removeTaskHandler = useCallback(() => removeTask({
     todolistId: todolistId,

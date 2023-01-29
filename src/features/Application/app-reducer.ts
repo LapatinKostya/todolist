@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {authAPI} from "../api/todolists-api";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import {AxiosError} from "axios";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {authAPI} from "../../api/todolists-api"
+import {handleServerNetworkError} from "../../utils/error-utils"
+import {AxiosError} from "axios"
 
 export const initialiseApp = createAsyncThunk('app/initialise',
     async (param, thunkAPI) => {
@@ -12,7 +12,7 @@ export const initialiseApp = createAsyncThunk('app/initialise',
           thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
           return
         } else {
-          handleServerAppError(res.data, thunkAPI.dispatch)
+          thunkAPI.dispatch(setAppStatusAC({status: 'failed'}))
           return thunkAPI.rejectWithValue({})
         }
       } catch (e) {
@@ -43,10 +43,10 @@ export const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder
-    //     .addCase(initialiseApp.fulfilled, (state) => {
-    //       state.isInitialized = true
-    //     })
+    builder
+        .addCase(initialiseApp.fulfilled, (state) => {
+          state.isInitialized = true
+        })
   }
 })
 
