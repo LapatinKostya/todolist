@@ -5,6 +5,7 @@ import thunkMiddleware from "redux-thunk";
 import {appReducer} from "./app-reducer";
 import {authReducer} from "../features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {FieldErrorType} from "../api/todolists-api";
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
@@ -21,6 +22,8 @@ export type TRootReducer = typeof rootReducer
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
+
+export type ThunkError = { rejectValue: { errors: string[], fieldsErrors?: FieldErrorType[] } }
 
 // @ts-ignore
 window.store = store;

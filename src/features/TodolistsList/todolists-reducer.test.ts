@@ -74,7 +74,7 @@ test('correct filter of todolist should be changed', () => {
 test('todolists should be added', () => {
   const payload = {todolists: startState}
 
-  const action = todolistActions.fetchTodolists.fulfilled(payload, '')
+  const action = todolistActions.fetchTodolists.fulfilled(payload, '', undefined)
 
   const endState = todolistsReducer([], action)
 
